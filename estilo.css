@@ -1,0 +1,55 @@
+body, div, input, button {
+	
+	text-transform: uppercase;
+	font-family: Arial;
+	
+}
+
+
+#infoDinero {
+	
+	font-size: 70px;
+	color: red;
+	text-align: center;
+	border: 1px solid black;
+	margin-top: 100px;
+	
+}
+
+ #infoBitcoin {
+	 
+	font-size: 70px;
+	color: blue;
+	text-align: center;
+	border: 1px solid black;
+	margin-top: 100px;
+	 
+ }
+
+#botones {
+	
+	margin-top: 40px;
+	border-left: 10px;
+	border-right: 10px;
+	text-align: center;
+	
+}
+
+input, button {
+	
+	font-size: 12px;
+	display: inline;
+	height: 50px;
+	width: 150px;
+	border-radius: 600px;
+	
+}
+
+input,button:focus {
+	
+	outline:0;
+	
+}
+
+
+
