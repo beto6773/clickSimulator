@@ -6,7 +6,7 @@ var tarjetasGraficas = 1;
 var tarjetaGraficaRota = 0;
 var precioGrafica = 450;
 
-var bitcoinMinar = 0.000012;
+var bitcoinMinar = 0.0000042;
 var bitcoinFree;
 var bitcoin = 0;
 
