@@ -75,7 +75,7 @@ function comprarGrafica(x) {
 
 	cartera = cartera - precioGrafica;
 	tarjetasGraficas++
-	bitcoinMinar = (bitcoinMinar / 2) + 0.000023;
+	bitcoinMinar = (bitcoinMinar / 2) + 0.0000061;
 	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
 	actualizar();
 }
