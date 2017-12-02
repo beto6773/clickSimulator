@@ -1,83 +1,97 @@
 // Variables
 var tarjetasGraficas = 1;
+var tarjetaGraficaRota = 0;
 var precioGrafica = 450;
-var bitcoinMinar = 0.0000002;
-var bitcoinFree = Math.random() * (0.0000021 - 0.0000004) + 0.0000004;
+var bitcoinMinar = 0.000012;
+var bitcoinFree;
 
 var bitcoin = 0;
-var dinero = 0
-var tiempoRefresco = Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000;
+var cartera = 0
+var tiempoRefresco;
 
 // Funcion para "minar". Aumenta los bitcoins en 0.01015
 function minar() {
 	bitcoin = bitcoin + bitcoinMinar;
-	dinero = bitcoin * 9264.53;
+	tarjetaGraficaRota = Math.floor(Math.random() * (101 - 1 + 1)) + 1;
+		if (tarjetaGraficaRota === 10 && tarjetasGraficas > 1) {
+			alert ('Se te ha roto una tarjeta gráfica.')
+			tarjetasGraficas--;
+			bitcoinMinar = bitcoinMinar * 0.93;
+		}
 	actualizar();
-
-	document.getElementById('infoDinero').innerHTML = dinero.toFixed(5) + ' €';
-	document.getElementById('infoBitcoin').innerHTML = bitcoin.toFixed(5) + ' ฿ ';
-	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
 }
 
 // Funcion para mostrar la informacion en pantalla.
 function mostrarInfo() {
 	setInterval(function(){
+		bitcoinFree = Math.random() * (0.00022 - 0.000002) + 0.000002;
+		tiempoRefresco = Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000;
 		bitcoin = bitcoin + bitcoinFree;
 		actualizar();
 	}, tiempoRefresco);
 }
+mostrarInfo();
 
 
 /* Actualiza la informacion de la pantalla, se ejecuta la funcion mostrarInfo() al cargar
 la pagina y esta llama a actualizar() cada
 */
 function actualizar() {
-
-	if (dinero < precioGrafica) {
+	if (cartera < precioGrafica) {
 		document.getElementById('comprarGrafica').setAttribute('disabled', true);
 	}
 	else {
 		document.getElementById('comprarGrafica').removeAttribute('disabled');
 	}
 
-	var dineroInfo = bitcoin * 9264.53;
-	var bitcoinInfo = dinero / 9264.53;
+	var infoCartera = cartera;
+	var infoBitcoin = bitcoin;
 
-	document.getElementById('infoDinero').innerHTML = dineroInfo.toFixed(5) + ' €';
-	document.getElementById('infoBitcoin').innerHTML = bitcoinInfo.toFixed(5) + ' ฿ ';
+	document.getElementById('infoCartera').innerHTML = infoCartera.toFixed(6) + ' €';
+	document.getElementById('infoBitcoin').innerHTML = infoBitcoin.toFixed(6) + ' ฿ ';
+	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
 
-
-	/*		condicion que controla la funciona precioMejora()
-	if (dinero >= precioMejora ) {
-		document.getElementById('mejorarTiempoRefresco').removeAttribute('disabled');
-	}
-	*/
 }
+
+/*		condicion que controla la funciona precioMejora()
+if (dinero >= precioMejora ) {
+document.getElementById('mejorarTiempoRefresco').removeAttribute('disabled');
+}
+*/
 
 function comprarGrafica(x) {
 
 	if (tarjetasGraficas > 9 && tarjetasGraficas < 11) {
-		precioGrafica = precioGrafica * 2;
+		precioGrafica = precioGrafica + (precioGrafica / 3) * 2;
 		alert ('¡El precio de las tarjetas gráficas ha subido!');
 	}
 
 	else if (tarjetasGraficas > 19 && tarjetasGraficas < 21) {
-		precioGrafica = precioGrafica * 3;
+		precioGrafica = precioGrafica + (precioGrafica / 2) * 3;
 		alert ('¡El precio de las tarjetas gráficas ha vuelto a subir!');
 	}
 
-
-	dinero = dinero - precioGrafica;
-	bitcoin = dinero / 9264.55;
+	cartera = cartera - precioGrafica;
 	tarjetasGraficas++
-	bitcoinMinar = Math.random() * (0.0000012 - 0.0000002) + 0.0000002;
+	bitcoinMinar = (bitcoinMinar / 2) + 0.000023;
 	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
 	actualizar();
 }
 
+function venderBitcoins(cantidad){
 
+	var cantidad = prompt('Cantidad a vender: ', bitcoin.toFixed(6) - 0.000001.toFixed(6));
 
+	if (cantidad > bitcoin) {
+		alert ('¡Error!. No tienes suficientes Bitcoins.');
+	}
 
+	else {
+		bitcoin = bitcoin - cantidad;
+		cartera = cartera + (cantidad * 9264.55);
+	}
+	actualizar();
+}
 
 /*		funcion de mejorar cooldown. Se puede aprovechar codigo.
 

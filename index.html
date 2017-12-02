@@ -15,22 +15,22 @@
 	<section class="container">
 		<table class="table table-striped table-bordered">
 			<tr>
-				<th>
+				<th class="success">
 					Bitcoins
 				</th>
-				<th>
-					Euros
+				<th class="success">
+					Cartera
 				</th>
-				<th>
+				<th class="info">
 					Tarjetas gráficas
 				</th>
 			</tr>
 			<tr>
 				<td id="infoBitcoin">
-					0.00000 Ƀ
+					0.000000 Ƀ
 				</td>
-				<td id="infoDinero">
-					0.00000 €
+				<td id="infoCartera">
+					0.000000 €
 				</td>
 				<td id="tarjetasGraficas">
 					1
@@ -40,14 +40,14 @@
 	</table>
 
 	<section>
-		<div id="botones" class="container fluid" align="">
+		<div id="botones" class="container fluid pull-left" align="">
 			<button type="button" class="btn btn-success" id="minar" onClick="minar()" >Minar bitcoins</button>
-			<button type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)" >Comprar tarjeta gráfica</button>
-
-			<!--<button type="button" id="producir" onClick="invertir(this)">Invertir</button>-->
-			<!--<button title="Precio: 1000€" type="button" id="mejorarTiempoRefresco" disabled="true" onClick="mejorar(this)" value="Mejorar tiempo">Reducir cooldown</button>-->
+			<button type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins(this)"> Vender Bitcoins </button>
+			<button type="button" class="btn btn-danger pull-right" id="comprarGrafica" onClick="comprarGrafica(this)" >Comprar tarjeta gráfica</button>
 		</div>
 	</section>
+	<!--<button type="button" id="producir" onClick="invertir(this)">Invertir</button>-->
+	<!--<button title="Precio: 1000€" type="button" id="mejorarTiempoRefresco" disabled="true" onClick="mejorar(this)" value="Mejorar tiempo">Reducir cooldown</button>-->
 
 
 	</body>

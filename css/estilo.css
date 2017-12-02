@@ -1,3 +1,9 @@
 .checkbox {
 	margin-left: 20px;
 }
+
+table th, table td {
+	text-align: center;
+	font-size: 17px;
+	font-family: fantasy;
+}
