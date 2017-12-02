@@ -2,6 +2,7 @@
 var tarjetasGraficas = 1;
 var precioGrafica = 450;
 var bitcoinMinar = 0.0000002;
+var bitcoinFree = Math.random() * (0.0000017 - 0.0000007) + 0.0000007;
 
 var bitcoin = 0;
 var dinero = 0
@@ -21,7 +22,6 @@ function minar() {
 // Funcion para mostrar la información en pantalla.
 function mostrarInfo() {
 	setInterval(function(){
-		var bitcoinFree = bitcoin + Math.random() * (0.0000017 - 0.0000007) + 0.0000007;
 		bitcoin = bitcoin + bitcoinFree;
 		actualizar();
 	}, tiempoRefresco);
@@ -68,7 +68,7 @@ function comprarGrafica(x) {
 	dinero = dinero - precioGrafica;
 	bitcoin = dinero / 9264.55;
 	tarjetasGraficas++
-	bitcoinMinar = bitcoinMinar + Math.random() * (0.0000012 - 0.0000002) + 0.0000002;
+	bitcoinMinar = Math.random() * (0.0000012 - 0.0000002) + 0.0000002;
 	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
 	actualizar();
 }
