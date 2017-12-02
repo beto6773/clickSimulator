@@ -2,7 +2,7 @@
 var tarjetasGraficas = 1;
 var precioGrafica = 450;
 var bitcoinMinar = 0.0000002;
-var bitcoinFree = Math.random() * (0.0000017 - 0.0000007) + 0.0000007;
+var bitcoinFree = Math.random() * (0.0000021 - 0.0000004) + 0.0000004;
 
 var bitcoin = 0;
 var dinero = 0
@@ -15,11 +15,11 @@ function minar() {
 	actualizar();
 
 	document.getElementById('infoDinero').innerHTML = dinero.toFixed(5) + ' €';
-	document.getElementById('infoBitcoin').innerHTML = bitcoin.toFixed(5) + ' Ƀ ';
+	document.getElementById('infoBitcoin').innerHTML = bitcoin.toFixed(5) + ' ฿ ';
 	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
 }
 
-// Funcion para mostrar la información en pantalla.
+// Funcion para mostrar la informacion en pantalla.
 function mostrarInfo() {
 	setInterval(function(){
 		bitcoin = bitcoin + bitcoinFree;
@@ -28,8 +28,8 @@ function mostrarInfo() {
 }
 
 
-/* Actualiza la información de la pantalla, se ejecuta la funcion mostrarInfo() al cargar
-la página y ésta llama a actualizar() cada
+/* Actualiza la informacion de la pantalla, se ejecuta la funcion mostrarInfo() al cargar
+la pagina y esta llama a actualizar() cada
 */
 function actualizar() {
 
@@ -40,12 +40,14 @@ function actualizar() {
 		document.getElementById('comprarGrafica').removeAttribute('disabled');
 	}
 
+	var dineroInfo = bitcoin * 9264.53;
+	var bitcoinInfo = dinero / 9264.53;
 
-	document.getElementById('infoDinero').innerHTML = dinero.toFixed(5) + ' €';
-	document.getElementById('infoBitcoin').innerHTML = bitcoin.toFixed(5) + ' Ƀ ';
+	document.getElementById('infoDinero').innerHTML = dineroInfo.toFixed(5) + ' â‚¬';
+	document.getElementById('infoBitcoin').innerHTML = bitcoinInfo.toFixed(5) + ' Éƒ ';
 
 
-	/*		condición que controla la funciona precioMejora()
+	/*		condicion que controla la funciona precioMejora()
 	if (dinero >= precioMejora ) {
 		document.getElementById('mejorarTiempoRefresco').removeAttribute('disabled');
 	}
@@ -77,7 +79,7 @@ function comprarGrafica(x) {
 
 
 
-/*		funcion de mejorar cooldown. Se puede aprovechar código.
+/*		funcion de mejorar cooldown. Se puede aprovechar codigo.
 
  function mejorar(botonMejora) {
 	botonMejora.setAttribute('title', precioMejora);
@@ -85,11 +87,11 @@ function comprarGrafica(x) {
 	multTiempo = multTiempo - 0.2
 	tiempoRefresco = tiempoRefresco / multTiempo;
 	botonMejora.setAttribute('disabled', true);
-	botonMejora.value = ('Mejorar tiempo: '+ precioMejora + ' €');
+	botonMejora.value = ('Mejorar tiempo: '+ precioMejora + ' â‚¬');
   botonMejora.setAttribute('disabled', false);
 } */
 
-/*		funcion de inverir. Se puede aprovechar código.
+/*		funcion de inverir. Se puede aprovechar codigo.
 
 function invertir(boton) {
 	dinero = dinero + inversionDinero;
