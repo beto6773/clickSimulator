@@ -21,7 +21,7 @@ function minar() {
 // Funcion para mostrar la información en pantalla.
 function mostrarInfo() {
 	setInterval(function(){
-		var bitcoinFree = bitcoin + Math.random() * (0.0000021 - 0.0000004) + 0.0000004;
+		var bitcoinFree = bitcoin + Math.random() * (0.0000017 - 0.0000007) + 0.0000007;
 		bitcoin = bitcoin + bitcoinFree;
 		actualizar();
 	}, tiempoRefresco);
@@ -40,11 +40,9 @@ function actualizar() {
 		document.getElementById('comprarGrafica').removeAttribute('disabled');
 	}
 
-	var dineroInfo = bitcoin * 9264.53;
-	var bitcoinInfo = dinero / 9264.53;
 
-	document.getElementById('infoDinero').innerHTML = dineroInfo.toFixed(5) + ' €';
-	document.getElementById('infoBitcoin').innerHTML = bitcoinInfo.toFixed(5) + ' Ƀ ';
+	document.getElementById('infoDinero').innerHTML = dinero.toFixed(5) + ' €';
+	document.getElementById('infoBitcoin').innerHTML = bitcoin.toFixed(5) + ' Ƀ ';
 
 
 	/*		condición que controla la funciona precioMejora()
