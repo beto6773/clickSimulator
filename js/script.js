@@ -43,8 +43,8 @@ function actualizar() {
 	var dineroInfo = bitcoin * 9264.53;
 	var bitcoinInfo = dinero / 9264.53;
 
-	document.getElementById('infoDinero').innerHTML = dineroInfo.toFixed(5) + ' â‚¬';
-	document.getElementById('infoBitcoin').innerHTML = bitcoinInfo.toFixed(5) + ' Éƒ ';
+	document.getElementById('infoDinero').innerHTML = dineroInfo.toFixed(5) + ' €';
+	document.getElementById('infoBitcoin').innerHTML = bitcoinInfo.toFixed(5) + ' ฿ ';
 
 
 	/*		condicion que controla la funciona precioMejora()
