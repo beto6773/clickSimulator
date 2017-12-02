@@ -1,19 +1,21 @@
 // Variables
+var cartera = 0
+var tiempoRefresco;
+
 var tarjetasGraficas = 1;
 var tarjetaGraficaRota = 0;
 var precioGrafica = 450;
+
 var bitcoinMinar = 0.000012;
 var bitcoinFree;
-
 var bitcoin = 0;
-var cartera = 0
-var tiempoRefresco;
+
 
 // Funcion para "minar". Aumenta los bitcoins en 0.01015
 function minar() {
 	bitcoin = bitcoin + bitcoinMinar;
-	tarjetaGraficaRota = Math.floor(Math.random() * (101 - 1 + 1)) + 1;
-		if (tarjetaGraficaRota === 10 && tarjetasGraficas > 1) {
+	tarjetaGraficaRota = Math.floor(Math.random() * (2000 - 1 + 1)) + 1;
+		if (tarjetaGraficaRota === 552 && tarjetasGraficas > 1) {
 			alert ('Se te ha roto una tarjeta gráfica.')
 			tarjetasGraficas--;
 			bitcoinMinar = bitcoinMinar * 0.93;
@@ -24,7 +26,7 @@ function minar() {
 // Funcion para mostrar la informacion en pantalla.
 function mostrarInfo() {
 	setInterval(function(){
-		bitcoinFree = Math.random() * (0.00022 - 0.000002) + 0.000002;
+		bitcoinFree = Math.random() * (0.00012 - 0.000042) + 0.000042;
 		tiempoRefresco = Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000;
 		bitcoin = bitcoin + bitcoinFree;
 		actualizar();
@@ -47,7 +49,7 @@ function actualizar() {
 	var infoCartera = cartera;
 	var infoBitcoin = bitcoin;
 
-	document.getElementById('infoCartera').innerHTML = infoCartera.toFixed(6) + ' €';
+	document.getElementById('infoCartera').innerHTML = infoCartera.toFixed(2) + ' €';
 	document.getElementById('infoBitcoin').innerHTML = infoBitcoin.toFixed(6) + ' ฿ ';
 	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
 
@@ -93,6 +95,8 @@ function venderBitcoins(cantidad){
 	actualizar();
 }
 
+
+
 /*		funcion de mejorar cooldown. Se puede aprovechar codigo.
 
  function mejorar(botonMejora) {
@@ -117,7 +121,6 @@ function invertir(boton) {
         boton.removeAttribute('disabled');
     }, tiempoRefresco)
 } */
-
 
 /*     Variables para las funciones deshabilitadas
 
