@@ -1,34 +1,54 @@
 <htm>
 	<head>
 	<meta charset="utf-8" />
-	<script src="script.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="estilo.css">
-	
+	<title>Click Simulator</title>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/script.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/estilo.css">
 	</head>
-	
-	<body onload="mostrarInfo()">
-	
-	
+
+	<body onload="mostrarInfo(), actualizar()">
+		<h1 align="center"><u>Bitcoins</u></h1>
+		<br />
+	<section class="container">
+		<table class="table table-striped table-bordered">
+			<tr>
+				<th>
+					Bitcoins
+				</th>
+				<th>
+					Euros
+				</th>
+				<th>
+					Tarjetas gráficas
+				</th>
+			</tr>
+			<tr>
+				<td id="infoBitcoin">
+					0.00000 Ƀ
+				</td>
+				<td id="infoDinero">
+					0.00000 €
+				</td>
+				<td id="tarjetasGraficas">
+					1
+				</td>
+			</tr>
+		</section>
+	</table>
+
 	<section>
-		<div id="botones">
-			<input type="button" id="minar" onClick="minar()" value="Minar dinero"></input>
-			<input type="button" id="producir" onClick="invertir(this)" value="Invertir"></input>
-			<button title="Precio: 1000€" type="button" id="mejorarTiempoRefresco" disabled="true" onClick="mejorar(this)" value="Mejorar tiempo">Reducir cooldown</button>
+		<div id="botones" class="container fluid" align="">
+			<button type="button" class="btn btn-success" id="minar" onClick="minar()" >Minar bitcoins</button>
+			<button type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)" >Comprar tarjeta gráfica</button>
+
+			<!--<button type="button" id="producir" onClick="invertir(this)">Invertir</button>-->
+			<!--<button title="Precio: 1000€" type="button" id="mejorarTiempoRefresco" disabled="true" onClick="mejorar(this)" value="Mejorar tiempo">Reducir cooldown</button>-->
 		</div>
 	</section>
-	
-	<section>
-		<div id="infoDinero">
-			Euros: 0 €
-		</div>
-		<div id="infoBitcoin">
-		
-			Bitcoins: 0.00000 Ƀ
-			
-		</div>
-	</section>
-	
-	
+
+
 	</body>
 </html>
