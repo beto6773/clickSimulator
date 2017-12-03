@@ -1,7 +1,7 @@
 // Variables
 
 var cartera = 0
-var tiempoRefresco;
+var tiempoRefresco = 10000;
 
 var tarjetasGraficas = 1;
 var tarjetaGraficaRota = 0;
@@ -12,10 +12,15 @@ var bitcoinFree;
 var bitcoin = 0;
 
 //Controlar la "trampa" de presionar Enter en lugar de hacer click
-function trampa(x){
-	alert ('Eso es trampa ¬¬');
-	bitcoin = bitcoin - (bitcoin * 0.20);
-	cartera = cartera - (cartera * 0.20);
+
+function trampa(){
+	document.getElementById("minar").addEventListener("keydown", function(event){
+		if (event.keyCode == 13 || event.keyCode == 32) {
+			actualizar();
+			bitcoin = bitcoin / 2;
+			cartera = cartera / 2;
+		}
+	} )
 }
 
 // Funcion para "minar". Aumenta los bitcoins en 0.01015
@@ -87,7 +92,13 @@ function comprarGrafica(x) {
 }
 
 function venderBitcoins(cantidad){
+if (bitcoin < 0.000001) {
+	alert ('¡Error!. No tienes suficientes Bitcoins.');
+}
+
+else {
 	var cantidad = prompt('Cantidad a vender: ', bitcoin.toFixed(6) - 0.000001.toFixed(6));
+
 	if (cantidad > bitcoin) {
 		alert ('¡Error!. No tienes suficientes Bitcoins.');
 	}
@@ -96,6 +107,7 @@ function venderBitcoins(cantidad){
 		cartera = cartera + (cantidad * 9264.55);
 	}
 	actualizar();
+	}
 }
 
 // funcion para comprar un "boost-pack". Se deshabilita por 30 segundos.
