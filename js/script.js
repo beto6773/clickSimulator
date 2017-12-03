@@ -7,7 +7,7 @@ var tarjetasGraficas = 1;
 var tarjetaGraficaRota = 0;
 var precioGrafica = 450;
 
-var bitcoinMinar = 0.0000042;
+var bitcoinMinar = 0.0000062;
 var bitcoinFree;
 var bitcoin = 0;
 
@@ -33,7 +33,7 @@ function minar() {
 // Funcion para mostrar la informacion en pantalla.
 function mostrarInfo() {
 	setInterval(function(){
-		bitcoinFree = Math.random() * (0.00012 - 0.000042) + 0.000042;
+		bitcoinFree = Math.random() * (0.00012 - 0.000032) + 0.000032;
 		tiempoRefresco = Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000;
 		bitcoin = bitcoin + bitcoinFree;
 		actualizar();
