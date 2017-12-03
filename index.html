@@ -40,10 +40,13 @@
 	</table>
 
 	<section>
-		<div id="botones" class="container fluid pull-left" align="">
-			<button type="button" class="btn btn-success" id="minar" onClick="minar()" >Minar bitcoins</button>
-			<button type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins(this)"> Vender Bitcoins </button>
-			<button type="button" class="btn btn-danger pull-right" id="comprarGrafica" onClick="comprarGrafica(this)" >Comprar tarjeta gráfica</button>
+		<div id="acciones" class="container col-md-4 pull-left">
+			<button type="button" class="btn btn-success" id="minar" onClick="minar()" onkeypress="trampa(this)" >Minar bitcoins</button>
+			<button title="Vender Bitcoins" type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins(this)"> Vender Bitcoins </button>
+		</div>
+		<div id="mejoras" class="container col-md-4 pull-right">
+			<button type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)" >Comprar tarjeta gráfica</button>
+			<button title="Mejora la productividad. [2.50 €]" type="button" class="btn btn-info" id="comprarCafe" onClick="comprarCafe()">Comprar café</button>
 		</div>
 	</section>
 	<!--<button type="button" id="producir" onClick="invertir(this)">Invertir</button>-->

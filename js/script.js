@@ -1,4 +1,5 @@
 // Variables
+
 var cartera = 0
 var tiempoRefresco;
 
@@ -6,16 +7,22 @@ var tarjetasGraficas = 1;
 var tarjetaGraficaRota = 0;
 var precioGrafica = 450;
 
-var bitcoinMinar = 0.000012;
+var bitcoinMinar = 0.0000042;
 var bitcoinFree;
 var bitcoin = 0;
 
+//Controlar la "trampa" de presionar Enter en lugar de hacer click
+function trampa(x){
+	alert ('Eso es trampa ¬¬');
+	bitcoin = bitcoin - (bitcoin * 0.20);
+	cartera = cartera - (cartera * 0.20);
+}
 
 // Funcion para "minar". Aumenta los bitcoins en 0.01015
 function minar() {
 	bitcoin = bitcoin + bitcoinMinar;
 	tarjetaGraficaRota = Math.floor(Math.random() * (2000 - 1 + 1)) + 1;
-		if (tarjetaGraficaRota === 552 && tarjetasGraficas > 1) {
+		if (tarjetaGraficaRota == 552 && tarjetasGraficas > 1) {
 			alert ('Se te ha roto una tarjeta gráfica.')
 			tarjetasGraficas--;
 			bitcoinMinar = bitcoinMinar * 0.93;
@@ -33,7 +40,6 @@ function mostrarInfo() {
 	}, tiempoRefresco);
 }
 mostrarInfo();
-
 
 /* Actualiza la informacion de la pantalla, se ejecuta la funcion mostrarInfo() al cargar
 la pagina y esta llama a actualizar() cada
@@ -75,25 +81,76 @@ function comprarGrafica(x) {
 
 	cartera = cartera - precioGrafica;
 	tarjetasGraficas++
-	bitcoinMinar = (bitcoinMinar / 2) + 0.000023;
+	bitcoinMinar = (bitcoinMinar / 2) + 0.0000061;
 	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
 	actualizar();
 }
 
 function venderBitcoins(cantidad){
-
 	var cantidad = prompt('Cantidad a vender: ', bitcoin.toFixed(6) - 0.000001.toFixed(6));
-
 	if (cantidad > bitcoin) {
 		alert ('¡Error!. No tienes suficientes Bitcoins.');
 	}
-
 	else {
 		bitcoin = bitcoin - cantidad;
 		cartera = cartera + (cantidad * 9264.55);
 	}
 	actualizar();
 }
+
+// funcion para comprar un "boost-pack". Se deshabilita por 30 segundos.
+var precioCafe = 2.50;
+
+function comprarCafe(){
+	if (tiempoEspera <= 30 && cartera > precioCafe) {
+		cartera = cartera - precioCafe;
+		minarActual = bitcoinMinar;
+		cuentaAtras();
+	}
+	else {
+		alert ('No tienes dinero suficiente.');
+	}
+}
+
+var tiempoEspera = 30; // variable para controlar el tiempo de espera.
+var minarActual; // Variable para controlar el valor actual de la funcion de minar.
+
+function cuentaAtras() {
+	document.getElementById('comprarCafe').setAttribute('disabled', true);
+	tiempoEspera--;
+	actualizar();
+	setTimeout(function () {
+			if ( tiempoEspera < 31 && tiempoEspera >= 25){
+
+				if ( tiempoEspera <= 25 ){
+					bitcoinMinar = minarActual;
+				}
+				else {
+					bitcoinMinar = (bitcoinMinar * 3) / 1.2 ;
+				}
+				//bitcoinMinar = bitcoinMinar + (bitcoinMinar / 50);
+				document.getElementById('comprarCafe').innerHTML = "Comprar café (" + tiempoEspera + ")";
+				cuentaAtras();
+
+			}
+			else if (tiempoEspera < 25 && tiempoEspera > 0 ){
+				document.getElementById('comprarCafe').innerHTML = "Comprar café (" + tiempoEspera + ")";
+				cuentaAtras();
+			}
+
+			else {
+				bitcoinMinar = minarActual;
+				document.getElementById('comprarCafe').removeAttribute('disabled');
+				document.getElementById('comprarCafe').innerHTML = "Comprar café";
+				actualizar();
+				tiempoEspera = 30;
+			}
+		}, 1000);
+}
+
+
+//Ideas:
+//producto CAFE, LIBRO, PELOTA ANTI ESTRES ...
 
 
 
