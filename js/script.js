@@ -33,7 +33,7 @@ function minar() {
 // Funcion para mostrar la informacion en pantalla.
 function mostrarInfo() {
 	setInterval(function(){
-		bitcoinFree = Math.random() * (0.00012 - 0.000032) + 0.000032;
+		bitcoinFree = Math.random() * (0.000011 - 0.0000052) + 0.0000052;
 		tiempoRefresco = Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000;
 		bitcoin = bitcoin + bitcoinFree;
 		actualizar();
