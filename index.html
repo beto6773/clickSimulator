@@ -2,17 +2,33 @@
 	<head>
 	<meta charset="utf-8" />
 	<title>Minar Bitcoins</title>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.min.js"></script>
 	<script src="js/script.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/estilo.css">
 	</head>
 
 	<body onload="mostrarInfo(), actualizar()">
-		<h1 align="center"><u>Bitcoins</u></h1>
+		<div class="navbar-left">
+			<a class="" href="#"><img src="img/logo.png" /></a>
+			<br />
+		</div>
+
+		<div class="navbar-right text-right" style="margin-right: 10px; margin-top: 10px;">
+			<button class="btn btn-sm" data-toggle="collapse" data-target="#controles">Opciones</button>
+			<div id="controles" class="collapse">
+				<br />
+				<button onClick="guardar()" class="btn btn-sm btn-info">Guardar</button>
+				<button onClick="borrar()" class="btn btn-sm btn-danger">Reiniciar Juego</button>
+			</div>
+		</div>
+
+
+
 		<br />
-	<section class="container">
+	<section class="container text-center" style="margin-top: 100px; ">
 		<div class="row">
 		<table class="table table-striped table-bordered">
 			<tr>
@@ -41,7 +57,7 @@
 	</table>
 	</div>
 
-	<div class="row container">
+	<div class="row container text-center">
 		<div id="acciones" class="container-fluid col-lg-4 pull-left">
 			<button title="¡Machaca el botón!" type="button" class="btn btn-success" id="minar" onClick="minar()" onkeypress="trampa()"> Minar bitcoins </button>
 			<button title="Vende tus bitcoins!" type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins(this)"> Vender Bitcoins </button>

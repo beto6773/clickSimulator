@@ -1,118 +1,153 @@
-// Variables:
-var cartera = 0
-var tiempoRefresco = 10000;
+// Comprueba si hay un almacenamiento local de "Variables", si está lo carga y si no está crea el objeto Variables con las variables necesarias y guarda el objeto en localStorage.
+if (localStorage.getItem("Variables") === null) {
+	var Variables = {
 
-// Variable para las tarjetas gráficas
-var tarjetasGraficas = 1;
-var tarjetaGraficaRota = 0;
-var precioGrafica = 450;
+		//Dinero en la cartera y tiempo de refresco entre freebitcoins.
+		cartera:0,
+		tiempoRefresco : 10000,
 
-// Variables bitcoin
-var bitcoinMinar = 0.0000052;
-var bitcoinMax = 0.000015;
-var bitcoinMin = 0.0000052;
-var bitcoinFree;
-var bitcoin = 0;
+		// Variable para las tarjetas gráficas
+		tarjetasGraficas : 1,
+		tarjetaGraficaRota : 0,
+		precioGrafica : 450,
 
-// variable tiempo máximo y mínimo de actualizar()
-var tiempoMax = 10000;
-var tiempoMin = 5000;
+		// Variables bitcoin
+		bitcoinMinar : 0.0000052,
+		bitcoinMax : 0.000015,
+		bitcoinMin : 0.0000052,
+		bitcoinFree : 0,
+		bitcoin : 0,
+
+		// variable tiempo máximo y mínimo de actualizar()
+		tiempoMax : 10000,
+		tiempoMin : 5000,
+
+		// variable para controlar si el software está instalado
+		instalado : 0,
+
+		// variable para el control del cafe
+		tiempoEspera: 60,
+
+	}
+	// Se guarda en localStorage el objeto que se acaba de crear.
+	localStorage.setItem("Variables", JSON.stringify(Variables))
+}
+
+else {
+
+	// Parsea el objeto almacenado en localStorage y lo carga.
+	Variables = JSON.parse(localStorage.Variables);
+	localStorage.getItem("Variables");
+}
+
+// funciones para guardar y/o borrar datos del localStorage
+function guardar(){
+	localStorage.setItem("Variables", JSON.stringify(Variables))
+}
+
+var borrado = false;
+function borrar() {
+	borrado = confirm('¿Seguro que quieres reinciar los datos?');
+	if (borrado == true){
+		localStorage.clear("Variables");
+		location.reload();
+	}
+}
+
 
 // Funcion para mostrar la informacion en pantalla. Se repite constantemente.
 function mostrarInfo() {
 	setInterval(function(){
-		bitcoinFree = Math.random() * (0.000011 - 0.0000052) + 0.0000052;
-		bitcoin = bitcoin + bitcoinFree;
-		tiempoRefresco = Math.random() * (tiempoMax - tiempoMin) + tiempoMin;
+		Variables.bitcoinFree = Math.random() * (0.000011 - 0.0000052) + 0.0000052;
+		Variables.bitcoin = Variables.bitcoin + Variables.bitcoinFree;
+		Variables.tiempoRefresco = Math.random() * (Variables.tiempoMax - Variables.tiempoMin) + Variables.tiempoMin;
+		guardar();
 		actualizar();
-	}, tiempoRefresco);
+	}, Variables.tiempoRefresco);
 }
 mostrarInfo();
+
 
 //Controlar la "trampa" de presionar Enter en lugar de hacer click
 function trampa(){
 	document.getElementById("minar").addEventListener("keydown", function(event){
 		if (event.keyCode == 13 || event.keyCode == 32) {
 			actualizar();
-			bitcoin = bitcoin / 2;
-			cartera = cartera / 2;
+			Variables.bitcoin = Variables.bitcoin / 2;
+			Variables.cartera = Variables.cartera / 2;
 		}
 	} )
 }
 
 // Funcion para "minar". Aumenta los bitcoins en 0.01015
 function minar() {
-	bitcoinMinar = Math.random() * (bitcoinMax - bitcoinMin) + bitcoinMin;
-	bitcoin = bitcoin + bitcoinMinar;
-	tarjetaGraficaRota = Math.floor(Math.random() * (2500 - 1 + 1)) + 1;
-		if (tarjetaGraficaRota == 550 && tarjetasGraficas > 1) {
+	Variables.bitcoinMinar = Math.random() * (Variables.bitcoinMax - Variables.bitcoinMin) + Variables.bitcoinMin;
+	Variables.bitcoin = Variables.bitcoin + Variables.bitcoinMinar;
+	Variables.tarjetaGraficaRota = Math.floor(Math.random() * (2500 - 1 + 1)) + 1;
+
+		if (Variables.tarjetaGraficaRota == 550 && Variables.tarjetasGraficas > 1) {
 			alert ('Se te ha roto una tarjeta gráfica.')
-			tarjetasGraficas--;
-			bitcoinMinar = bitcoinMinar * 0.8;
+			Variables.tarjetasGraficas--;
+			Variables.bitcoinMinar = Variables.bitcoinMinar * 0.8;
 		}
 	actualizar();
 }
-
 
 /* Actualiza la informacion de la pantalla, se ejecuta la funcion mostrarInfo() al cargar
 la pagina y esta llama a actualizar() cada
 */
 function actualizar() {
-	if (cartera < precioGrafica) {
+	guardar();
+	if (Variables.cartera < Variables.precioGrafica) {
 		document.getElementById('comprarGrafica').setAttribute('disabled', true);
 	}
 	else {
 		document.getElementById('comprarGrafica').removeAttribute('disabled');
 	}
 
-	var infoCartera = cartera;
-	var infoBitcoin = bitcoin;
+	var infoCartera = Variables.cartera;
+	var infoBitcoin = Variables.bitcoin;
 
 	document.getElementById('infoCartera').innerHTML = infoCartera.toFixed(2) + ' €';
 	document.getElementById('infoBitcoin').innerHTML = infoBitcoin.toFixed(6) + ' ฿ ';
-	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
+	document.getElementById('tarjetasGraficas').innerHTML = Variables.tarjetasGraficas;
 
 }
-
-/*		condicion que controla la funciona precioMejora()
-if (dinero >= precioMejora ) {
-document.getElementById('mejorarTiempoRefresco').removeAttribute('disabled');
-}
-*/
 
 function comprarGrafica(x) {
 
-	if (tarjetasGraficas > 9 && tarjetasGraficas < 11) {
-		precioGrafica = precioGrafica + (precioGrafica / 3) * 2;
+	if (Variables.tarjetasGraficas > 9 && Variables.tarjetasGraficas < 11) {
+		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 3) * 2;
 		alert ('¡El precio de las tarjetas gráficas ha subido!');
 	}
 
-	else if (tarjetasGraficas > 19 && tarjetasGraficas < 21) {
-		precioGrafica = precioGrafica + (precioGrafica / 2) * 3;
+	else if (Variables.tarjetasGraficas > 19 && Variables.tarjetasGraficas < 21) {
+		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 2) * 3;
 		alert ('¡El precio de las tarjetas gráficas ha vuelto a subir!');
 	}
 
-	cartera = cartera - precioGrafica;
-	tarjetasGraficas++
-	bitcoinMinar = bitcoinMinar * 1.75;
-	document.getElementById('tarjetasGraficas').innerHTML = tarjetasGraficas;
+	Variables.cartera = Variables.cartera - Variables.precioGrafica;
+	Variables.tarjetasGraficas++
+	Variables.bitcoinMinar = Variables.bitcoinMinar * 1.75;
+	document.getElementById('tarjetasGraficas').innerHTML = Variables.tarjetasGraficas;
 	actualizar();
 }
 
 function venderBitcoins(cantidad){
-if (bitcoin < 0.000001) {
+if (Variables.bitcoin.toFixed(6) < 0.000001) {
 	alert ('¡Error!. No tienes suficientes Bitcoins.');
 }
 
 else {
-	var cantidad = prompt('Cantidad a vender: ', bitcoin.toFixed(6) - 0.000001.toFixed(6));
+	var cantidad = prompt('Cantidad a vender: ', Variables.bitcoin - 0.000001);
 
-	if (cantidad > bitcoin) {
+	if (cantidad > Variables.bitcoin) {
 		alert ('¡Error!. No tienes suficientes Bitcoins.');
 	}
 	else {
-		bitcoin = bitcoin - cantidad;
-		cartera = cartera + (cantidad * 9264.55);
+		Variables.bitcoin = Variables.bitcoin - cantidad;
+		Variables.cartera = Variables.cartera + (cantidad * 9264.55);
+		localStorage.setItem("Variables", JSON.stringify(Variables));
 	}
 	actualizar();
 	}
@@ -126,10 +161,15 @@ var maxActual;
 var minActual;
 
 function comprarCafe(){
-	if (tiempoEspera <= 30 && cartera > precioCafe) {
-		cartera = cartera - precioCafe;
-		maxActual = bitcoinMax;
-		minActual = bitcoinMin;
+
+	if (Variables.tiempoEspera < 60) {
+		cuentaAtras();
+	}
+
+	else if (Variables.tiempoEspera <= 60 && Variables.cartera > precioCafe) {
+		Variables.cartera = Variables.cartera - precioCafe;
+		maxActual = Variables.bitcoinMax;
+		minActual = Variables.bitcoinMin;
 		cuentaAtras();
 	}
 	else {
@@ -137,40 +177,38 @@ function comprarCafe(){
 	}
 }
 
-var tiempoEspera = 30; // variable para controlar el tiempo de espera.
-
 function cuentaAtras() {
 	document.getElementById('comprarCafe').setAttribute('disabled', true);
-	tiempoEspera--;
-	actualizar();
+	Variables.tiempoEspera--;
+	guardar();
 	setTimeout(function () {
-			if ( tiempoEspera < 31 && tiempoEspera >= 25){
+			if ( Variables.tiempoEspera < 61 && Variables.tiempoEspera >= 55){
 
-				if ( tiempoEspera <= 25 ){
-					bitcoinMax = maxActual;
-					bitcoinMin = minActual;
+				if ( Variables.tiempoEspera <= 55 ){
+					Variables.bitcoinMax = maxActual;
+					Variables.bitcoinMin = minActual;
 				}
 				else {
-					bitcoinMax = 0.00010;
-					bitcoinMin = 0.00005;
+					Variables.bitcoinMax = 0.00010;
+					Variables.bitcoinMin = 0.00005;
 				}
 				//bitcoinMinar = bitcoinMinar + (bitcoinMinar / 50);
-				document.getElementById('comprarCafe').innerHTML = "Comprar café (" + tiempoEspera + ")";
+				document.getElementById('comprarCafe').innerHTML = "Comprar café (" + Variables.tiempoEspera + ")";
 				cuentaAtras();
 
 			}
-			else if (tiempoEspera < 25 && tiempoEspera > 0 ){
-				document.getElementById('comprarCafe').innerHTML = "Comprar café (" + tiempoEspera + ")";
+			else if (Variables.tiempoEspera < 55 && Variables.tiempoEspera > 0 ){
+				document.getElementById('comprarCafe').innerHTML = "Comprar café (" + Variables.tiempoEspera + ")";
 				cuentaAtras();
 			}
 
 			else {
-				bitcoinMax = maxActual;
-				bitcoinMin = minActual;
+				Variables.bitcoinMax = maxActual;
+				Variables.bitcoinMin = minActual;
 				document.getElementById('comprarCafe').removeAttribute('disabled');
 				document.getElementById('comprarCafe').innerHTML = "Comprar café";
-				actualizar();
-				tiempoEspera = 30;
+				Variables.tiempoEspera = 60;
+				guardar();
 			}
 		}, 1000);
 }
@@ -178,18 +216,19 @@ function cuentaAtras() {
 //variables para la funcion comprarSoftware
 var x = 1; // controlar el progreso de la progressbar
 var comprar = 0; // controlar la confirmacion por parte del usuario
-var instalado = false; // controlar si el sofware está instalado
 
 function comprarSoftware() {
-
-	if (comprar == 0 && cartera >= 90){
+	if (comprar == 0 && Variables.cartera >= 90){
 		document.getElementById('comprarSoftware').setAttribute('disabled',true);
 		comprar = confirm('¿Quieres comprar el sofware?');
-			if (instalado == true){
+			if (Variables.instalado == 1){
 				alert ('Ya tienes instalado este software');
+				document.getElementById('comprarSoftware').setAttribute('title','Ya está instalado');
+				document.getElementById('comprarSoftware').setAttribute('class','btn btn-success');
+				document.getElementById('comprarSoftware').innerHTML = "¡Software.exe instalado!";
 			}
 			else if (comprar == true){
-				cartera = cartera - 90;
+				Variables.cartera = Variables.cartera - 90;
 				actualizar();
 				comprarSoftware();
 			}
@@ -206,13 +245,13 @@ function comprarSoftware() {
 			document.getElementById('softwareProgreso').innerHTML = x + '%';
 			x++;
 			comprarSoftware();
-		}, Math.floor(Math.random() * (2000 - 200 + 1)) + 200);
+		},Math.floor(Math.random() * (2000 - 200 + 1)) + 200);
 		}
 		else if (x > 100) {
-			if (tiempoMax == 10000 && tiempoMin == 5000){
-				tiempoMax = 3050;
-				tiempoMin = 1700;
-				tiempoRefresco = Math.random() * (tiempoMax - tiempoMin) + tiempoMin;
+			if (Variables.tiempoMax == 10000 && Variables.tiempoMin == 5000){
+				Variables.tiempoMax = 3050;
+				Variables.tiempoMin = 1700;
+				Variables.tiempoRefresco = Math.random() * (Variables.tiempoMax - Variables.tiempoMin) + Variables.tiempoMin;
 				mostrarInfo();
 			}
 			comprar = 0;
@@ -222,50 +261,10 @@ function comprarSoftware() {
 			document.getElementById('comprarSoftware').setAttribute('title','Ya está instalado');
 			document.getElementById('comprarSoftware').setAttribute('class','btn btn-success');
 			document.getElementById('comprarSoftware').innerHTML = "¡Software.exe instalado!";
-			instalado = true;
+			Variables.instalado = 1;
 		}
 	}
 	else {
 		alert('No tienes dinero suficiente');
 	}
 }
-
-
-//Ideas:
-//producto CAFE, LIBRO, PELOTA ANTI ESTRES ...
-
-
-
-/*		funcion de mejorar cooldown. Se puede aprovechar codigo.
-
- function mejorar(botonMejora) {
-	botonMejora.setAttribute('title', precioMejora);
-	precioMejora = precioMejora * 1.6;
-	multTiempo = multTiempo - 0.2
-	tiempoRefresco = tiempoRefresco / multTiempo;
-	botonMejora.setAttribute('disabled', true);
-	botonMejora.value = ('Mejorar tiempo: '+ precioMejora + ' â‚¬');
-  botonMejora.setAttribute('disabled', false);
-} */
-
-/*		funcion de inverir. Se puede aprovechar codigo.
-
-function invertir(boton) {
-	dinero = dinero + inversionDinero;
-	actualizar();
-	boton.setAttribute('disabled', true);
-	setTimeout(function(){
-		tiempoRefresco = tiempoRefresco * multTiempo;
-        boton.value = ('Invertir');
-        boton.removeAttribute('disabled');
-    }, tiempoRefresco)
-} */
-
-/*     Variables para las funciones deshabilitadas
-
-var inversionDinero = 100;
-var multTiempo = 1.5;
-var precioMejora = 1000;
-var produccionSegundos = 2000;
-
-*/
