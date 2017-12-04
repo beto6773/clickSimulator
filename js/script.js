@@ -51,6 +51,8 @@ function borrar() {
 	if (borrado == true){
 		localStorage.clear("Variables");
 		location.reload();
+		localStorage.clear("Variables");
+		location.reload();
 	}
 }
 
