@@ -10,11 +10,16 @@
 	<link rel="stylesheet" type="text/css" href="css/estilo.css">
 	</head>
 
-	<body onload="mostrarInfo(), actualizar()">
+	<body onload="mostrarInfo(), actualizarInfo(),activarTrucos(), comprobarCambio()" id="cuerpo">
 		<div class="navbar-left">
-			<a class="" href="#"><img src="img/logo.png" /></a>
+			<a style="margin-left: 10px" class="" href="#"><img src="img/logo.png" /></a>
+			<div class="text-center row" >
+				<p style="font-size: 18px"><u>Precio del bitcoin actual</u>:</p>
+				<p style="font-size: 18px;" class="glyphicon" id="bitcoinActual"></p> €
+			</div>
 			<br />
 		</div>
+
 
 		<div class="navbar-right text-right" style="margin-right: 10px; margin-top: 10px;">
 			<button class="btn btn-sm" data-toggle="collapse" data-target="#controles">Opciones</button>
@@ -25,12 +30,9 @@
 			</div>
 		</div>
 
-
-
 		<br />
 	<section class="container text-center" style="margin-top: 100px; ">
-		<div class="row">
-		<table class="table table-striped table-bordered">
+		<table class="table table-bordered">
 			<tr>
 				<th class="success">
 					Bitcoins
@@ -55,27 +57,93 @@
 			</tr>
 		</section>
 	</table>
-	</div>
 
-	<div class="row container text-center">
-		<div id="acciones" class="container-fluid col-lg-4 pull-left">
+<section class"form-inline">
+	<div class="pull-left">
 			<button title="¡Machaca el botón!" type="button" class="btn btn-success" id="minar" onClick="minar()" onkeypress="trampa()"> Minar bitcoins </button>
-			<button title="Vende tus bitcoins!" type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins(this)"> Vender Bitcoins </button>
-		</div>
-		<div id="mejoras" class="container-fluid col-lg-6 pull-right">
-			<button title="Precio: 2,50€. Mejora la productividad durante unos segundos. ¡Tienes que ser rapido!." type="button" class="btn btn-info" id="comprarCafe" onClick="comprarCafe()"> Comprar café </button>
-			<button type="button" class="btn btn-default" id="comprarSoftware" title="Precio: 90€. Programa para mejorar la eficiencia." onClick="comprarSoftware()"> Instalar software.exe </button>
-			<button title="Podrás minar más." type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)"> Comprar tarjeta gráfica </button>
+			<button title="Vende tus bitcoins!" type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins()"> Vender Bitcoins </button>
+			<input id="venderTodo" data-toggle="toggle" type="checkbox" onchange="comprobarCambio()">
+	</div>
+	<div class="pull-right">
+		<button title="Precio: 2,10€. Mejora la productividad durante unos segundos. ¡Tienes que ser rapido!." type="button" class="btn btn-info" id="comprarCafe" onClick="comprarCafe()"> Café </button>
+		<button title="Precio: 100€. Programa para mejorar la eficiencia." type="button" class="btn btn-default" id="comprarSoftware" onClick="comprarSoftware()"> Software.exe </button>
+		<button title="Podrás minar más rápido." type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)"> Comprar tarjeta gráfica </button>
+	</div>
+</section>
+<br />
+<br />
+<br />
+<br />
+<div id="software" class="progress" hidden>
+	<div id="softwareProgreso" class="progress-bar" role="progressbar" aria-valuenow="70"aria-valuemin="0" aria-valuemax="100" style="width:0%">Instalando...</div>
+</div>
+<br />
+<hr />
+
+<!--  Tienda  -->
+<section class="form-inline tienda">
+	<div><a data-toggle="collapse" href="#mostrarTienda"><img src="img/tienda.jpg" /></a></div>
+	<div class="collapse" id="mostrarTienda">
+		<div class="card card-body tienda">
+
+			<!-- Primera fila  -->
+			<div class="col-xs-4 col-md-2">
+				<h3>Sevicios</h3>
+				<button class="btn glyphicon glyphicon-cd" id="SpookyFly" onClick="tienda('SpookyFly')"> SpookyFly </button>
+			</div>
+
+			<!-- Tercera fila  -->
+			<div class="col-xs-4 col-md-2 col-md-push-3">
+				<h3>Consumibles</h3>
+				<button class="btn btn-warning"> Plátano </button>
+			</div>
+
+			<!-- Quinta fila  -->
+			 <div class="col-xs-4 col-md-2 col-md-push-6">
+				<h3>Mejoras</h3>
+				<button class="btn btn-info"> Pc nuevo </button>
+
+			</div>
+
+			<!-- Segunda fila  -->
+			<div class="col-xs-6 col-md-3 col-md-pull-4">
+				<h3>Contratación</h3>
+				<button class="btn btn-default" > Buscar empleados</button>
+
+    	</div>
+
+			<!-- Cuarta fila  -->
+			<div class="col-xs-6 col-md-3 col-md-pull-2">
+				<h3>Relax...</h3>
+				<button class="btn btn-danger"> Irse de vacaciones</button>
+
+    	</div>
+
 		</div>
 	</div>
+</section>
 
-	<br />
-	<div id="software" class="progress" hidden>
-		<div id="softwareProgreso" class="progress-bar" role="progressbar" aria-valuenow="70"aria-valuemin="0" aria-valuemax="100" style="width:0%">Instalando...</div>
-	</div>
 
-	<!--<button type="button" id="producir" onClick="invertir(this)">Invertir</button>-->
-	<!--<button title="Precio: 1000€" type="button" id="mejorarTiempoRefresco" disabled="true" onClick="mejorar(this)" value="Mejorar tiempo">Reducir cooldown</button>-->
+
+<!-- Trucos -->
+
+	<div class="modal fade" id="activarTrucos" role="dialog" >
+	    <div class="modal-dialog">
+
+	      <!-- Trucos-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 style="color:red;"><span>Trucos</span></h4>
+	        </div>
+	        <div class="modal-body">
+	          <form role="form">
+								<input type="number" id="dinero"></input>
+	              <button type="button" class="btn btn-sm btn-info" onClick="masDinero()"> Añadir dinero </button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
 
 	</body>
 </html>
