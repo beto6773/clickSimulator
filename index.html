@@ -1,47 +1,64 @@
-<htm>
+<html>
 	<head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8" name='viewport' content='initial-scale=0.46, user-scalable=0, width=device-width' />
 	<title>Minar Bitcoins</title>
+	<script>
+		if (screen.width <= 699) {
+			document.location = "/movil/index.html";
+		}
+	</script>
 	<script src="js/script.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/estilo.css">
 	</head>
 
-	<body onload="mostrarInfo(), actualizarInfo(),activarTrucos(), comprobarCambio()" id="cuerpo">
+	<body onload="mostrarInfo(), bitcoinFree(), actualizarInfo(), activarTrucos(), comprobarCambio()" id="cuerpo">
 		<div class="navbar-left">
 			<a style="margin-left: 10px" class="" href="#"><img src="img/logo.png" /></a>
 			<div class="text-center row" >
-				<p style="font-size: 18px"><u>Precio del bitcoin actual</u>:</p>
-				<p style="font-size: 18px;" class="glyphicon" id="bitcoinActual"></p> €
+				<br />
+				<p style="font-size: 17px"><u>Precio del Bitcoin actual</u>:</p>
+				<p style="font-size: 17px;" class="glyphicon" id="bitcoinActual"></p> €
+				<p class="form-inline comprarBitcoins">
+					<input id="comprarBitcoinsValor" step="0.000001" value="0.000001" type="number" min="0.000001"/>
+					<br />
+					<br />
+					<button title="Compra bitcoins!" type="button" class="btn btn-md" id="comprarBitcoins" onClick="comprarBitcoins()"> Comprar Bitcoins </button>
+					<hr />
+					<p>Compra máxima <input type="checkbox" id="compraMaxima"> </input></p>
+					<p>Vender TODOS los bitcoins automáticamente <input id="venderTodo" type="checkbox" onchange="comprobarCambio()" checked></p>
+				</p>
 			</div>
 			<br />
 		</div>
-
-
-		<div class="navbar-right text-right" style="margin-right: 10px; margin-top: 10px;">
-			<button class="btn btn-sm" data-toggle="collapse" data-target="#controles">Opciones</button>
-			<div id="controles" class="collapse">
-				<br />
-				<button onClick="guardar()" class="btn btn-sm btn-info">Guardar</button>
-				<button onClick="borrar()" class="btn btn-sm btn-danger">Reiniciar Juego</button>
-			</div>
+		<div class="navbar-right opciones">
+			<button class="btn btn-sm" data-toggle="modal" href="#opciones">Opciones</button>
 		</div>
-
+		<div class="pull-right infoMejoras">
+			<table class="table table-bordered">
+				<tr>
+					<th class="info">
+						Tarjetas graficas
+					</th>
+				</tr>
+				<tr>
+					<td id="tarjetasGraficas">
+						1
+					</td>
+				</tr>
+			</table>
+		</div>
 		<br />
-	<section class="container text-center" style="margin-top: 100px; ">
+	<div class="container text-center tablaInfo">
 		<table class="table table-bordered">
 			<tr>
 				<th class="success">
 					Bitcoins
 				</th>
-				<th class="success">
+				<th class="warning">
 					Cartera
-				</th>
-				<th class="info">
-					Tarjetas gráficas
 				</th>
 			</tr>
 			<tr>
@@ -51,45 +68,40 @@
 				<td id="infoCartera">
 					0.00 €
 				</td>
-				<td id="tarjetasGraficas">
-					1
-				</td>
 			</tr>
-		</section>
+		</div>
 	</table>
 
 <section class"form-inline">
 	<div class="pull-left">
 			<button title="¡Machaca el botón!" type="button" class="btn btn-success" id="minar" onClick="minar()" onkeypress="trampa()"> Minar bitcoins </button>
-			<button title="Vende tus bitcoins!" type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins()"> Vender Bitcoins </button>
-			<input id="venderTodo" data-toggle="toggle" type="checkbox" onchange="comprobarCambio()">
+			<button title="Vende tus bitcoins!" type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins()" checked> Vender Bitcoins </button>
+			<!--<input id="venderTodo" data-toggle="toggle" type="checkbox" onchange="comprobarCambio()" checked>-->
 	</div>
 	<div class="pull-right">
-		<button title="Precio: 2,10€. Mejora la productividad durante unos segundos. ¡Tienes que ser rapido!." type="button" class="btn btn-info" id="comprarCafe" onClick="comprarCafe()"> Café </button>
-		<button title="Precio: 100€. Programa para mejorar la eficiencia." type="button" class="btn btn-default" id="comprarSoftware" onClick="comprarSoftware()"> Software.exe </button>
-		<button title="Podrás minar más rápido." type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)"> Comprar tarjeta gráfica </button>
+		<button title="Precio: 2,10€. Mejora la productividad durante unos segundos. ¡Tienes que ser rapido!." type="button" class="btn btn-info" id="comprarCafe" onClick="comprarCafe()"> Café [2.10€] </button>
+		<button title="Precio: 100€. Programa para mejorar la eficiencia." type="button" class="btn btn-default" id="comprarSoftware" onClick="comprarSoftware()"> Software.exe [100€] </button>
+		<button title="Precio: 450€. Podrás minar más en menos tiempo." type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)"> Tarjeta gráfica [450€] </button>
 	</div>
 </section>
-<br />
-<br />
-<br />
-<br />
+		<br />
+		<br />
+		<hr />
 <div id="software" class="progress" hidden>
-	<div id="softwareProgreso" class="progress-bar" role="progressbar" aria-valuenow="70"aria-valuemin="0" aria-valuemax="100" style="width:0%">Instalando...</div>
+	<div id="softwareProgreso" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%">Instalando...</div>
 </div>
-<br />
-<hr />
+
 
 <!--  Tienda  -->
 <section class="form-inline tienda">
-	<div><a data-toggle="collapse" href="#mostrarTienda"><img src="img/tienda.jpg" /></a></div>
+	<div><a data-toggle="collapse" #href="#mostrarTienda"><img src="img/tienda.svg" title="Tienda. Haz click para abrir." /></a></div>
 	<div class="collapse" id="mostrarTienda">
 		<div class="card card-body tienda">
 
 			<!-- Primera fila  -->
 			<div class="col-xs-4 col-md-2">
 				<h3>Sevicios</h3>
-				<button class="btn glyphicon glyphicon-cd" id="SpookyFly" onClick="tienda('SpookyFly')"> SpookyFly </button>
+				<button class="btn glyphicon glyphicon-cd" id="SpookyFly" #onClick="tienda('SpookyFly')"> SpookyFly </button>
 			</div>
 
 			<!-- Tercera fila  -->
@@ -100,50 +112,70 @@
 
 			<!-- Quinta fila  -->
 			 <div class="col-xs-4 col-md-2 col-md-push-6">
-				<h3>Mejoras</h3>
-				<button class="btn btn-info"> Pc nuevo </button>
-
-			</div>
+					<h3>Mejoras</h3>
+					<button class="btn btn-info"> Pc nuevo </button>
+				</div>
 
 			<!-- Segunda fila  -->
 			<div class="col-xs-6 col-md-3 col-md-pull-4">
 				<h3>Contratación</h3>
 				<button class="btn btn-default" > Buscar empleados</button>
-
     	</div>
 
 			<!-- Cuarta fila  -->
 			<div class="col-xs-6 col-md-3 col-md-pull-2">
 				<h3>Relax...</h3>
 				<button class="btn btn-danger"> Irse de vacaciones</button>
-
     	</div>
-
 		</div>
 	</div>
 </section>
 
-
-
 <!-- Trucos -->
-
 	<div class="modal fade" id="activarTrucos" role="dialog" >
-	    <div class="modal-dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 style="color:red;"><span>Trucos</span></h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+						<input type="number" id="dinero"></input>
+          	<button type="button" class="btn btn-sm btn-info" onClick="masDinero()"> Añadir dinero </button>
+					</form>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Fin de trucos -->
 
-	      <!-- Trucos-->
-	      <div class="modal-content">
-	        <div class="modal-header">
-	          <button type="button" class="close" data-dismiss="modal">&times;</button>
-	          <h4 style="color:red;"><span>Trucos</span></h4>
-	        </div>
-	        <div class="modal-body">
-	          <form role="form">
-								<input type="number" id="dinero"></input>
-	              <button type="button" class="btn btn-sm btn-info" onClick="masDinero()"> Añadir dinero </button>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
+<!-- Menú de opciones -->
+<div class="modal fade" id="opciones" role="dialog" >
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 style="color:black;"><span>Menú de Opciones</span></h4>
+			</div>
+			<div class="modal-body">
+				<div class="text-center form-group">
+					<button onClick="guardar('cerrar')" class="btn btn-md">Guardar</button>
+					<button onClick="borrar()" class="btn btn-md">Nueva partida</button>
+					<button class="btn btn-md"  data-toggle="collapse" href="#ayuda">¿Cómo se juega?</button>
+				</div>
+						<div class="collapse text-center" id="ayuda">
+							<hr>
+								Para empezar a jugar a ClickyCoin solo tienes que saber hacer click!<br />
+								El objetivo del juego es ganar dinero para poder comprar mejoras, las cuales te ayudarán a conseguir ClickyCoins / dinero de forma mas rápida. <br />
+								El juego es aleatorio prácticamente al 100%, tienes que estar atento a los cambios en los precios y elegir bien cuando comprar y/o vender. <br />
+						</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 
 	</body>
 </html>

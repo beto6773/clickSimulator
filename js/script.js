@@ -3,8 +3,8 @@ if (localStorage.getItem("Variables") === null) {
 	var Variables = {
 
 		// Variables relacionadas con el dinero
-		precioBitcoinMin : 7662.55,
-		precioBitcoinMax : 11840.21,
+		precioBitcoinMin : 8662.55,
+		precioBitcoinMax : 13840.21,
 		bitcoinMinar : 0.0000052,
 		bitcoinMax : 0.000015,
 		bitcoinMin : 0.0000052,
@@ -19,16 +19,22 @@ if (localStorage.getItem("Variables") === null) {
 		precioGrafica : 450,
 
 		// variable tiempo máximo y mínimo de actualizarInfo()
-		tiempoMax : 10000,
-		tiempoMin : 5000,
+		tiempoMax : 15000,
+		tiempoMin : 4000,
 
-		// variable para controlar si el software está instalado
+		// "instalado" -> variable para controlar si el software está instalado
 		instalado : 0,
+		tiempoBitcoinFree : 14293.1311,
+		precioBitcoinAleatorio : Math.random() * (13840.21 - 8662.55) + 8662.55,
+
+		// Variablas para futuras implementaciones.
 		servicioMensual: " ",
 		tiempoCobro : 1,
 
 		// variable para el control del cafe
 		tiempoEspera: 45,
+		maxActual : 0,
+		minActual : 0,
 	}
 
 	// Se guarda en localStorage el objeto que se acaba de crear.
@@ -43,12 +49,10 @@ else {
 // fin de la comprobación de carga localStorage.
 
 
-//   Inicio de Variables necesarias para las funciones, no es necesario guardaras en localStorage
+//   Inicio de Variables necesarias para las funciones pero innecesarias en localStorage
 
 // comprarCafe()
 var precioCafe = 2.10;
-var maxActual;
-var minActual;
 
 // borrar()
 var borrado = false;
@@ -58,7 +62,6 @@ var infoCartera = 0;
 var infoBitcoin = 0;
 
 // venderBitcoins()  ----  Variable para controlar el precio actual del bitcoin aleatoriamente.
-var precioBitcoinAleatorio = 9521.26;
 var precioBitcoinAleatorioAnterior;
 
 // comprarSoftware()
@@ -95,8 +98,12 @@ function trampa(){
 }
 
 // funciones para guardar y/o borrar datos del localStorage
-function guardar(){
+function guardar(opciones){
 	localStorage.setItem("Variables", JSON.stringify(Variables))
+	if (opciones == "cerrar"){
+		alert ('¡Guardado con éxito!');
+		$('#opciones').modal('toggle');
+	}
 }
 
 function borrar() {
@@ -104,7 +111,7 @@ function borrar() {
 	if (borrado == true){
 		while (localStorage.getItem("Variables") != null){
 			localStorage.clear("Variables");
-	}
+		}
 		location.reload();
 	}
 }
@@ -130,38 +137,43 @@ function actualizarInfo() {
 	document.getElementById('infoCartera').innerHTML = parseFloat(infoCartera).toFixed(2) + ' €';
 	document.getElementById('infoBitcoin').innerHTML = parseFloat(infoBitcoin).toFixed(6) + ' ฿ ';
 	document.getElementById('tarjetasGraficas').innerHTML = Variables.tarjetasGraficas;
-	if (typeof precioBitcoinAleatorio === 'undefined') {
+	if (typeof Variables.precioBitcoinAleatorio === 'undefined') {
 	document.getElementById('bitcoinActual').innerHTML = "Recopilando información...";
 	}
-	else if (precioBitcoinAleatorioAnterior < precioBitcoinAleatorio){
-	document.getElementById('bitcoinActual').innerHTML = "  " + precioBitcoinAleatorio.toFixed(2);
+	else if (precioBitcoinAleatorioAnterior < Variables.precioBitcoinAleatorio){
+	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2);
 	document.getElementById('bitcoinActual').setAttribute("class","glyphicon glyphicon-arrow-up")
 	document.getElementById('bitcoinActual').setAttribute("style","color: #449D44; font-size: 18px")
 	}
-	else if (precioBitcoinAleatorioAnterior > precioBitcoinAleatorio){
-	document.getElementById('bitcoinActual').innerHTML = "  " + precioBitcoinAleatorio.toFixed(2);
+	else if (precioBitcoinAleatorioAnterior > Variables.precioBitcoinAleatorio){
+	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2);
 	document.getElementById('bitcoinActual').setAttribute("class","glyphicon glyphicon-arrow-down red")
 	document.getElementById('bitcoinActual').setAttribute("style","color: red; font-size: 18px")
 	}
-	else if (precioBitcoinAleatorioAnterior == precioBitcoinAleatorio){
-	document.getElementById('bitcoinActual').innerHTML = "  " + precioBitcoinAleatorio.toFixed(2);
+	else if (precioBitcoinAleatorioAnterior == Variables.precioBitcoinAleatorio){
+	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2);
 	document.getElementById('bitcoinActual').setAttribute("class","glyphicon glyphicon-arrow-right grey")
 	document.getElementById('bitcoinActual').setAttribute("style","color: grey; font-size: 18px")
 	}
 	else {
-		document.getElementById('bitcoinActual').innerHTML = "  " + precioBitcoinAleatorio.toFixed(2);
+		document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2);
 	}
+}
 
-
+// bitcoinFree
+function bitcoinFree(){
+	var bitFree = setInterval(function(){
+		Variables.bitcoinFree = Math.random() * (0.000011 - 0.0000052) + 0.0000052;
+		Variables.bitcoin = Variables.bitcoin + Variables.bitcoinFree;
+		actualizarInfo();
+	}, Variables.tiempoBitcoinFree);
 }
 
 // Funcion para mostrar la informacion en pantalla. Se repite constantemente en función del tiempo de refresco actual..
 function mostrarInfo() {
-	setInterval(function(){
-		precioBitcoinAleatorioAnterior = precioBitcoinAleatorio;
-		precioBitcoinAleatorio =  Math.random() * (Variables.precioBitcoinMax - Variables.precioBitcoinMin) + Variables.precioBitcoinMin;
-		Variables.bitcoinFree = Math.random() * (0.000011 - 0.0000052) + 0.0000052;
-		Variables.bitcoin = Variables.bitcoin + Variables.bitcoinFree;
+	var mf = setInterval(function(){
+		precioBitcoinAleatorioAnterior = Variables.precioBitcoinAleatorio;
+		Variables.precioBitcoinAleatorio =  Math.random() * (Variables.precioBitcoinMax - Variables.precioBitcoinMin) + Variables.precioBitcoinMin;
 		Variables.tiempoRefresco = Math.random() * (Variables.tiempoMax - Variables.tiempoMin) + Variables.tiempoMin;
 		comprobarServicio();
 		actualizarInfo();
@@ -175,33 +187,32 @@ function minar() {
 	Variables.bitcoin = Variables.bitcoin + Variables.bitcoinMinar;
 	Variables.tarjetaGraficaRota = Math.floor(Math.random() * (2500 - 1 + 1)) + 1;
 
-		if (Variables.tarjetaGraficaRota == 550 && Variables.tarjetasGraficas > 1) {
-			alert ('Se te ha roto una tarjeta gráfica.')
-			Variables.tarjetasGraficas--;
-			variables.bitcoinMax = variables.bitcoinMax * 0.6;
-			variables.bitcoinMin = variables.bitcoinMin * 0.6;
-		}
+	if (Variables.tarjetaGraficaRota == 550 && Variables.tarjetasGraficas > 1) {
+		alert ('Se te ha roto una tarjeta gráfica.')
+		Variables.tarjetasGraficas--;
+		variables.bitcoinMax = variables.bitcoinMax * 0.6;
+		variables.bitcoinMin = variables.bitcoinMin * 0.6;
+	}
 	actualizarInfo();
 }
 
 // Funcion para comprobar si está seleccionada la opción de vender todos los bitcoins.
 function comprobarCambio(){
-		if (document.getElementById('venderTodo').checked == true){
-			document.getElementById('venderBitcoins').setAttribute("class", "btn btn-danger");
-			document.getElementById('venderBitcoins').innerHTML = "Vender TODOS";
+	if (document.getElementById('venderTodo').checked == true){
+		document.getElementById('venderBitcoins').setAttribute("class", "btn btn-danger");
+		document.getElementById('venderBitcoins').innerHTML = "Vender TODOS";
 		}
-		else if (document.getElementById('venderTodo').checked == false){
-			document.getElementById('venderBitcoins').setAttribute("class", "btn btn-warning");
-			document.getElementById('venderBitcoins').innerHTML = "Vender cantidad";
-		}
+	else if (document.getElementById('venderTodo').checked == false){
+		document.getElementById('venderBitcoins').setAttribute("class", "btn btn-warning");
+		document.getElementById('venderBitcoins').innerHTML = "Vender cantidad";
+	}
 }
 
 // Funcion vender bitcoins
-function venderBitcoins(cantidad){
+function venderBitcoins(){
 if (document.getElementById('venderTodo').checked == true){
-	Variables.cartera = Variables.cartera + (Variables.bitcoin * precioBitcoinAleatorio);
+	Variables.cartera = Variables.cartera + (Variables.bitcoin * Variables.precioBitcoinAleatorio);
 	Variables.bitcoin = Variables.bitcoin - Variables.bitcoin;
-	localStorage.setItem("Variables", JSON.stringify(Variables))
 	actualizarInfo();
 }
 
@@ -210,18 +221,55 @@ else if (Variables.bitcoin.toFixed(6) < 0.000001) {
 }
 
 else {
-	var cantidad = prompt('Cantidad a vender: ', Variables.bitcoin - 0.000001);
+	var cantVenta = parseFloat(prompt('Cantidad a vender: ', Variables.bitcoin - 0.000001));
 
-	if (cantidad > Variables.bitcoin) {
-		alert ('¡Error!. No tienes suficientes Bitcoins.');
-	}
-	else {
-		Variables.bitcoin = Variables.bitcoin - cantidad;
-		precioBitcoinAleatorio =  Math.random() * (Variables.precioBitcoinMax - Variables.precioBitcoinMin) + Variables.precioBitcoinMin;
-		Variables.cartera = Variables.cartera + (cantidad * precioBitcoinAleatorio);
-		localStorage.setItem("Variables", JSON.stringify(Variables))
+		if (cantVenta > Variables.bitcoin) {
+			alert ('¡Error!. No tienes suficientes Bitcoins.');
+		}
+		else if (cantVenta <= Variables.bitcoin){
+			Variables.bitcoin = Variables.bitcoin - cantVenta;
+			Variables.cartera = Variables.cartera + (cantVenta * Variables.precioBitcoinAleatorio);
+			actualizarInfo();
+		}
+		else {
+			actualizarInfo();
+		}
 	}
 	actualizarInfo();
+}
+
+// Funcion para comprar Bitcoins
+function comprarBitcoins(){
+if (Variables.cartera <= 0){
+	alert('No tienes suficiente dinero!');
+}
+
+else if (document.getElementById('compraMaxima').checked == true){
+	Variables.bitcoin = Variables.cartera / Variables.precioBitcoinAleatorio;
+	Variables.cartera = Variables.cartera - Variables.cartera;
+	actualizarInfo();
+}
+
+else if (document.getElementById('compraMaxima').checked == false){
+	var carteraActual = Variables.cartera;
+	var cantCompra = parseFloat(document.getElementById("comprarBitcoinsValor").value);
+
+	if (cantCompra == null || cantCompra <= 0){
+		alert ('Introduce un valor');
+	}
+
+	else if (cantCompra > carteraActual / Variables.precioBitcoinAleatorio){
+		alert ('No tienes suficiente dinero!')
+	}
+
+	else if (cantCompra <= carteraActual / Variables.precioBitcoinAleatorio){
+		Variables.bitcoin = cantCompra + Variables.bitcoin;
+		Variables.cartera = Variables.cartera - (cantCompra * Variables.precioBitcoinAleatorio);
+		actualizarInfo();
+		}
+	else {
+		actualizarInfo();
+	}
 	}
 }
 
@@ -235,12 +283,32 @@ function comprarGrafica() {
 	else if (Variables.tarjetasGraficas > 9 && Variables.tarjetasGraficas < 11) {
 		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 3) * 2;
 		alert ('¡El precio de las tarjetas gráficas ha subido!');
+		Variables.tarjetasGraficas++
+		actualizarInfo();
+	}
+
+	else if (Variables.tarjetasGraficas > 14 && Variables.tarjetasGraficas < 16) {
+		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 2) * 3;
+		alert ('¡El precio de las tarjetas gráicas ha vuelto a subir!');
+		Variables.tarjetasGraficas++
+		actualizarInfo();
 	}
 
 	else if (Variables.tarjetasGraficas > 19 && Variables.tarjetasGraficas < 21) {
 		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 2) * 3;
 		alert ('¡El precio de las tarjetas gráicas ha vuelto a subir!');
+		Variables.tarjetasGraficas++
+		actualizarInfo();
 	}
+
+	else if (Variables.tarjetasGraficas > 29 && Variables.tarjetasGraficas < 31) {
+		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 2) * 3;
+		alert ('¡El precio de las tarjetas gráicas ha vuelto a subir!');
+		Variables.tarjetasGraficas++
+		actualizarInfo();
+	}
+
+
 
 	else {
 		Variables.cartera = Variables.cartera - Variables.precioGrafica;
@@ -261,8 +329,8 @@ function comprarCafe(){
 
 	else if (Variables.tiempoEspera <= 45 && Variables.cartera > precioCafe) {
 		Variables.cartera = Variables.cartera - precioCafe;
-		maxActual = Variables.bitcoinMax;
-		minActual = Variables.bitcoinMin;
+		Variables.maxActual = parseFloat(Variables.bitcoinMax);
+		Variables.minActual = parseFloat(Variables.bitcoinMin);
 		cuentaAtras();
 	}
 	else {
@@ -279,8 +347,8 @@ function cuentaAtras() {
 			if ( Variables.tiempoEspera < 46 && Variables.tiempoEspera >= 42){
 
 				if ( Variables.tiempoEspera <= 42 ){
-					Variables.bitcoinMax = maxActual;
-					Variables.bitcoinMin = minActual;
+					Variables.bitcoinMax = Variables.maxActual;
+					Variables.bitcoinMin = Variables.minActual;
 				}
 
 				else if (Variables.tiempoEspera > 42 && Variables.tarjetasGraficas > 4) {
@@ -292,20 +360,20 @@ function cuentaAtras() {
 					Variables.bitcoinMin = Variables.bitcoinMax * 2.1;
 				}
 
-				document.getElementById('comprarCafe').innerHTML = "Comprar café (" + Variables.tiempoEspera + ")";
+				document.getElementById('comprarCafe').innerHTML = "Café (" + Variables.tiempoEspera + ")";
 				cuentaAtras();
 
 			}
 			else if (Variables.tiempoEspera < 42 && Variables.tiempoEspera > 0 ){
-				document.getElementById('comprarCafe').innerHTML = "Comprar café (" + Variables.tiempoEspera + ")";
+				document.getElementById('comprarCafe').innerHTML = "Café (" + Variables.tiempoEspera + ")";
 				cuentaAtras();
 			}
 
 			else {
-				Variables.bitcoinMax = maxActual;
-				Variables.bitcoinMin = minActual;
+				Variables.bitcoinMax = Variables.minActual;
+				Variables.bitcoinMin = Variables.minActual;
 				document.getElementById('comprarCafe').removeAttribute('disabled');
-				document.getElementById('comprarCafe').innerHTML = "Comprar café";
+				document.getElementById('comprarCafe').innerHTML = "Café ["+ precioCafe+"0€]";
 				Variables.tiempoEspera = 45;
 				guardar();
 			}
@@ -314,16 +382,17 @@ function cuentaAtras() {
 
 // Comprar software. Reduce el tiempo entre un bitcoinFree y otro.
 function comprarSoftware() {
-	if (comprar == 0 && Variables.cartera >= precioSoftware){
+	if (Variables.instalado == 1){
+		alert ('Ya tienes instalado este software');
+		document.getElementById('comprarSoftware').setAttribute('title','Ya está instalado');
+		document.getElementById('comprarSoftware').setAttribute('disabled',true);
+		document.getElementById('comprarSoftware').setAttribute('class','btn btn-success');
+		document.getElementById('comprarSoftware').innerHTML = "¡Software.exe instalado!";
+	}
+	else if (comprar == 0 && Variables.cartera >= precioSoftware){
 		document.getElementById('comprarSoftware').setAttribute('disabled',true);
 		comprar = confirm('¿Quieres comprar la licencia del sofware? Te costará 100€');
-			if (Variables.instalado == 1){
-				alert ('Ya tienes instalado este software');
-				document.getElementById('comprarSoftware').setAttribute('title','Ya está instalado');
-				document.getElementById('comprarSoftware').setAttribute('class','btn btn-success');
-				document.getElementById('comprarSoftware').innerHTML = "¡Software.exe instalado!";
-			}
-			else if (comprar == true){
+			if (comprar == true){
 				Variables.cartera = Variables.cartera - precioSoftware;
 				actualizarInfo();
 				comprarSoftware();
@@ -341,13 +410,13 @@ function comprarSoftware() {
 			document.getElementById('softwareProgreso').innerHTML = seg + '%';
 			seg++;
 			comprarSoftware();
-		},Math.floor(Math.random() * (2000 - 200 + 1)) + 200);
+		},1);
+		//Math.floor(Math.random() * (2000 - 200 + 1)) + 200);
 		}
 		else if (seg > 100) {
-			if (Variables.tiempoMax == 10000 && Variables.tiempoMin == 5000){
-				Variables.tiempoMax = 3050;
-				Variables.tiempoMin = 1700;
-				Variables.tiempoRefresco = Math.random() * (Variables.tiempoMax - Variables.tiempoMin) + Variables.tiempoMin;
+			if (Variables.tiempoBitcoinFree === 14293.1311 ){
+				Variables.tiempoBitcoinFree = 7311;
+				bitcoinFree();
 				mostrarInfo();
 			}
 			comprar = 0;
@@ -358,6 +427,7 @@ function comprarSoftware() {
 			document.getElementById('comprarSoftware').setAttribute('class','btn btn-success');
 			document.getElementById('comprarSoftware').innerHTML = "¡Software.exe instalado!";
 			Variables.instalado = 1;
+			guardar();
 		}
 	}
 	else {
@@ -372,53 +442,54 @@ function tienda(seleccion){
 		if (Variables.cartera >= precioSpookyFly){
 			Variables.servicioMensual = "SpookyFly";
 			Variables.tiempoCobro = 60;
+			clearTimeout(bitFree);
 			comprobarServicio();
 		}
 		else {
 			alert ('No tienes dinero suficiente!');
 		}
-}
+	}
 }
 
 function comprobarServicio(){
 
-if (Variables.servicioMensual != " ") {
-	if (Variables.servicioMensual == "SpookyFly"){
-		if (Variables.tiempoCobro < 1){
-			var s = confirm('El mes de '+ Variables.servicioMensual + ' ha finalizado. ¿Quieres continuar con el servicio?');
-				if(s == true && Variables.cartera >= precioSpookyFly){
+	if (Variables.servicioMensual != " ") {
+		if (Variables.servicioMensual == "SpookyFly"){
+			if (Variables.tiempoCobro < 1){
+				var s = confirm('El mes de '+ Variables.servicioMensual + ' ha finalizado. ¿Quieres continuar con el servicio?');
+					if(s == true && Variables.cartera >= precioSpookyFly){
+						Variables.cartera = Variables.cartera - precioSpookyFly;
+						alert ('Gracias por continuar con nosotros!');
+						document.getElementById('SpookyFly').addAttribute('disabled', true);
+						Variables.tiempoCobro = 60;
+					}
+					else if (s == true && Variales.cartera < precioSpookyFly){
+						alert ('No tienes dinero suficiente!')
+						Variables.tiempoCobro = 1;
+						Variables.servicioMensual = " ";
+						document.getElementById('SpookyFly').removeAttribute('disabled');
+					}
+					else{
+						Variables.tiempoCobro = 1;
+						Variables.servicioMensual = " ";
+						document.getElementById('SpookyFly').removeAttribute('disabled');
+					}
+			}
+			else if (Variables.tiempoCobro > 0  && Variables.tiempoCobro == 60){
+				var c = confirm('¿ Quieres contratar '+Variables.servicioMensual+" ? \n\nSe te cobrará una cuota de 9,95 €.");
+				if (c == true){
+					alert ('Gracias por suscribirte a nuestro servicio!')
 					Variables.cartera = Variables.cartera - precioSpookyFly;
-					alert ('Gracias por continuar con nosotros!');
-					document.getElementById('SpookyFly').addAttribute('disabled', true);
-					Variables.tiempoCobro = 60;
+					document.getElementById('SpookyFly').setAttribute('disabled', true);
+					Variables.tiempoCobro--;
 				}
-				else if (s == true && Variales.cartera < precioSpookyFly){
-					alert ('No tienes dinero suficiente!')
-					Variables.tiempoCobro = 1;
+				else {
 					Variables.servicioMensual = " ";
-					document.getElementById('SpookyFly').removeAttribute('disabled');
 				}
-				else{
-					Variables.tiempoCobro = 1;
-					Variables.servicioMensual = " ";
-					document.getElementById('SpookyFly').removeAttribute('disabled');
-				}
-		}
-		else if (Variables.tiempoCobro > 0  && Variables.tiempoCobro == 60){
-			var c = confirm('¿ Quieres contratar '+Variables.servicioMensual+" ? \n\nSe te cobrará una cuota de 9,95 €.");
-			if (c == true){
-				alert ('Gracias por suscribirte a nuestro servicio!')
-				Variables.cartera = Variables.cartera - precioSpookyFly;
-				document.getElementById('SpookyFly').setAttribute('disabled', true);
+			}
+			else if (Variables.tiempoCobro < 60) {
 				Variables.tiempoCobro--;
 			}
-			else {
-				Variables.servicioMensual = " ";
-			}
-		}
-		else if (Variables.tiempoCobro < 60) {
-			Variables.tiempoCobro--;
 		}
 	}
-}
 }

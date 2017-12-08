@@ -15,5 +15,29 @@ table th, table td {
 .tienda button{
 	margin-top: 10px;
 }
-.tienda div{
+
+.tienda img{
+	height: 150px;
+}
+
+.infoMejoras {
+	margin-top: 70px;
+}
+
+.opciones {
+	margin-top: 10px;
+	margin-right: 10px;
+	text-align
+}
+
+.tablaInfo {
+	margin-top: 50px;
+}
+
+.comprarBitcoins{
+	margin-top: 35px;
+}
+
+#comprarBitcoinsValor{
+	width: 130px;
 }
