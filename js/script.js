@@ -3,8 +3,8 @@ if (localStorage.getItem("Variables") === null) {
 	var Variables = {
 
 		// Variables relacionadas con el dinero
-		precioBitcoinMin : 8662.55,
-		precioBitcoinMax : 13840.21,
+		precioBitcoinMin : 6976.55,
+		precioBitcoinMax : 8101.21,
 		bitcoinMinar : 0.0000052,
 		bitcoinMax : 0.000015,
 		bitcoinMin : 0.0000052,
@@ -19,13 +19,13 @@ if (localStorage.getItem("Variables") === null) {
 		precioGrafica : 450,
 
 		// variable tiempo máximo y mínimo de actualizarInfo()
-		tiempoMax : 15000,
-		tiempoMin : 4000,
+		tiempoMax : 17000,
+		tiempoMin : 10000,
 
 		// "instalado" -> variable para controlar si el software está instalado
 		instalado : 0,
 		tiempoBitcoinFree : 14293.1311,
-		precioBitcoinAleatorio : Math.random() * (13840.21 - 8662.55) + 8662.55,
+		precioBitcoinAleatorio : Math.random() * (8101.21 - 6976.55) + 6976.55,
 
 		// Variablas para futuras implementaciones.
 		servicioMensual: " ",
@@ -176,6 +176,9 @@ function mostrarInfo() {
 	var mf = setInterval(function(){
 		precioBitcoinAleatorioAnterior = Variables.precioBitcoinAleatorio;
 		Variables.precioBitcoinAleatorio =  Math.random() * (Variables.precioBitcoinMax - Variables.precioBitcoinMin) + Variables.precioBitcoinMin;
+		if (Variables.precioBitcoinAleatorio ==  7360.161905566705 ||  Variables.precioBitcoinAleatorio == 8071.961036985888 ){
+			Variables.precioBitcoinAleatorio = 11293.12746410
+		}		
 		Variables.tiempoRefresco = Math.random() * (Variables.tiempoMax - Variables.tiempoMin) + Variables.tiempoMin;
 		comprobarServicio();
 		actualizarInfo();
