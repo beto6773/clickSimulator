@@ -9,15 +9,15 @@
 	<link rel="stylesheet" type="text/css" href="css/estilo.css">
 	</head>
 
-	<body onload="mostrarInfo(), bitcoinFree(), actualizarInfo(), activarTrucos(), comprobarCambio()" id="cuerpo">
+	<body onload="comprobarCambio(), mostrarInfo(), bitcoinFree(), actualizarInfo(), activarTrucos()" id="cuerpo">
 		<div class="navbar navbar-left">
 			<a class="" href="#"><img src="img/logo.png" /></a>
 		</div>
 		<div class="navbar-right text-center opciones">
-			<button class="btn btn-sm" data-toggle="modal" href="#opciones">Opciones</button>
+			<button class="btn btn-sm btn-default" data-toggle="modal" href="#opciones">Opciones</button>
 			<hr />
 			<div class="text-left" style="margin-left: 10px">
-				<p><input type="checkbox" id="compraMaxima"> </input> Compra máxima </p>
+				<p id="parrafoMaxima" hidden><input type="checkbox" id="compraMaxima"> </input> Compra máxima </p>
 				<p><input id="venderTodo" type="checkbox" onchange="comprobarCambio()" checked> Vender TODOS los bitcoins automáticamente </p>
 				<br />
 			</div>
@@ -68,10 +68,10 @@
 <section class"form-inline text-center pull-right">
 	<div class="text-center botonesFunciones">
 		<br />
-			<button title="¡Machaca el botón!" type="button" class="btn btn-success" id="minar" onClick="minar()" onkeypress="trampa()"> Minar bitcoins </button>
-			<button title="Vende tus bitcoins!" type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins()" checked> Vender Bitcoins </button>
-				<button title="Compra bitcoins!" type="button" class="btn btn-md" id="comprarBitcoins" onClick="comprarBitcoins()"> Comprar Bitcoins </button>
-				<input id="comprarBitcoinsValor" step="0.000001" value="0.000001" type="number" min="0.000001"/>
+			<button title="¡Machaca el botón!" type="button" class="btn btn-md btn-success" id="minar" onClick="minar()" onkeypress="trampa()"> Minar bitcoins </button>
+			<button title="Vende tus bitcoins!" type="button" class="btn btn-md btn-warning" id="venderBitcoins" onClick="venderBitcoins()"> Vender Bitcoins </button>
+				<button title="Compra bitcoins!" type="button" class="btn btn-md btn-warning" id="comprarBitcoins" onClick="comprarBitcoins()" disabled> Comprar Bitcoins </button>
+				<input id="comprarBitcoinsValor" step="0.000001" value="0.000001" type="number" min="0.000001" hidden/>
 			<!--<input id="venderTodo" data-toggle="toggle" type="checkbox" onchange="comprobarCambio()" checked>-->
 	</div>
 </section>
@@ -91,6 +91,7 @@
 		<div class="card card-body tienda">
 			<div class="text-center objetosCompra">
 				<button title="Precio: 2,10€. Mejora la productividad durante unos segundos. ¡Tienes que ser rapido!." type="button" class="btn btn-info" id="comprarCafe" onClick="comprarCafe()"> Café [2.10€] </button>
+				<button title="Precio: 65€. Aprende a invertir en bitcoins!" type="button" class="btn btn-warning" id="comprarCurso" onClick="comprarCurso()"> Curso de inversión [65€] </button>
 				<button title="Precio: 100€. Programa para mejorar la eficiencia." type="button" class="btn btn-default" id="comprarSoftware" onClick="comprarSoftware()"> Software.exe [100€] </button>
 				<button title="Precio: 450€. Podrás minar más en menos tiempo." type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)"> Tarjeta gráfica [450€] </button>
 			</div>
