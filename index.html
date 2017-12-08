@@ -2,11 +2,6 @@
 	<head>
 	<meta charset="utf-8" name='viewport' content='initial-scale=0.46, user-scalable=0, width=device-width' />
 	<title>Minar Bitcoins</title>
-	<script>
-		if (screen.width <= 699) {
-			document.location = "/movil/index.html";
-		}
-	</script>
 	<script src="js/script.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -15,43 +10,42 @@
 	</head>
 
 	<body onload="mostrarInfo(), bitcoinFree(), actualizarInfo(), activarTrucos(), comprobarCambio()" id="cuerpo">
-		<div class="navbar-left">
-			<a style="margin-left: 10px" class="" href="#"><img src="img/logo.png" /></a>
-			<div class="text-center row" >
-				<br />
-				<p style="font-size: 17px"><u>Precio del Bitcoin actual</u>:</p>
-				<p style="font-size: 17px;" class="glyphicon" id="bitcoinActual"></p> €
-				<p class="form-inline comprarBitcoins">
-					<input id="comprarBitcoinsValor" step="0.000001" value="0.000001" type="number" min="0.000001"/>
-					<br />
-					<br />
-					<button title="Compra bitcoins!" type="button" class="btn btn-md" id="comprarBitcoins" onClick="comprarBitcoins()"> Comprar Bitcoins </button>
-					<hr />
-					<p>Compra máxima <input type="checkbox" id="compraMaxima"> </input></p>
-					<p>Vender TODOS los bitcoins automáticamente <input id="venderTodo" type="checkbox" onchange="comprobarCambio()" checked></p>
-				</p>
-			</div>
-			<br />
+		<div class="navbar navbar-left">
+			<a class="" href="#"><img src="img/logo.png" /></a>
 		</div>
-		<div class="navbar-right opciones">
+		<div class="navbar-right text-center opciones">
 			<button class="btn btn-sm" data-toggle="modal" href="#opciones">Opciones</button>
+			<hr />
+			<div class="text-left" style="margin-left: 10px">
+				<p><input type="checkbox" id="compraMaxima"> </input> Compra máxima </p>
+				<p><input id="venderTodo" type="checkbox" onchange="comprobarCambio()" checked> Vender TODOS los bitcoins automáticamente </p>
+				<br />
+			</div>
 		</div>
-		<div class="pull-right infoMejoras">
-			<table class="table table-bordered">
-				<tr>
-					<th class="info">
-						Tarjetas graficas
-					</th>
-				</tr>
-				<tr>
-					<td id="tarjetasGraficas">
-						1
-					</td>
-				</tr>
-			</table>
-		</div>
-		<br />
+
 	<div class="container text-center tablaInfo">
+		<table class="table table-bordered">
+			<tr>
+				<th class="danger">
+					Precio actual del Bitcoin:
+				</th>
+				<th class="info">
+					Tarjetas graficas
+				</th>
+			</tr>
+			<tr>
+				<td class="text-center">
+					<div id="bitcoinActual" class="glyphicon"> €</div>
+				</td>
+				<td id="tarjetasGraficas">
+					1
+				</td>
+			</tr>
+		</table>
+	</div>
+
+
+	<div class="container">
 		<table class="table table-bordered">
 			<tr>
 				<th class="success">
@@ -69,65 +63,68 @@
 					0.00 €
 				</td>
 			</tr>
+		</table>
 		</div>
-	</table>
-
-<section class"form-inline">
-	<div class="pull-left">
+<section class"form-inline text-center pull-right">
+	<div class="text-center botonesFunciones">
+		<br />
 			<button title="¡Machaca el botón!" type="button" class="btn btn-success" id="minar" onClick="minar()" onkeypress="trampa()"> Minar bitcoins </button>
 			<button title="Vende tus bitcoins!" type="button" class="btn btn-warning" id="venderBitcoins" onClick="venderBitcoins()" checked> Vender Bitcoins </button>
+				<button title="Compra bitcoins!" type="button" class="btn btn-md" id="comprarBitcoins" onClick="comprarBitcoins()"> Comprar Bitcoins </button>
+				<input id="comprarBitcoinsValor" step="0.000001" value="0.000001" type="number" min="0.000001"/>
 			<!--<input id="venderTodo" data-toggle="toggle" type="checkbox" onchange="comprobarCambio()" checked>-->
-	</div>
-	<div class="pull-right">
-		<button title="Precio: 2,10€. Mejora la productividad durante unos segundos. ¡Tienes que ser rapido!." type="button" class="btn btn-info" id="comprarCafe" onClick="comprarCafe()"> Café [2.10€] </button>
-		<button title="Precio: 100€. Programa para mejorar la eficiencia." type="button" class="btn btn-default" id="comprarSoftware" onClick="comprarSoftware()"> Software.exe [100€] </button>
-		<button title="Precio: 450€. Podrás minar más en menos tiempo." type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)"> Tarjeta gráfica [450€] </button>
 	</div>
 </section>
 		<br />
-		<br />
+		<div class="container">
+			<div id="software" class="progress" hidden>
+				<div id="softwareProgreso" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%">Instalando...</div>
+			</div>
+		</div>
 		<hr />
-<div id="software" class="progress" hidden>
-	<div id="softwareProgreso" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%">Instalando...</div>
-</div>
 
 
 <!--  Tienda  -->
 <section class="form-inline tienda">
-	<div><a data-toggle="collapse" #href="#mostrarTienda"><img src="img/tienda.svg" title="Tienda. Haz click para abrir." /></a></div>
-	<div class="collapse" id="mostrarTienda">
+	<div><a data-toggle="collapse"><img src="img/tienda.svg" title="Tienda. Haz click para abrir." /></a></div>
+	<div class="" id="mostrarTienda">
 		<div class="card card-body tienda">
+			<div class="text-center objetosCompra">
+				<button title="Precio: 2,10€. Mejora la productividad durante unos segundos. ¡Tienes que ser rapido!." type="button" class="btn btn-info" id="comprarCafe" onClick="comprarCafe()"> Café [2.10€] </button>
+				<button title="Precio: 100€. Programa para mejorar la eficiencia." type="button" class="btn btn-default" id="comprarSoftware" onClick="comprarSoftware()"> Software.exe [100€] </button>
+				<button title="Precio: 450€. Podrás minar más en menos tiempo." type="button" class="btn btn-danger" id="comprarGrafica" onClick="comprarGrafica(this)"> Tarjeta gráfica [450€] </button>
+			</div>
 
-			<!-- Primera fila  -->
-			<div class="col-xs-4 col-md-2">
+			<!-- Primera fila
+		<div class="col-xs-4 col-md-2">
 				<h3>Sevicios</h3>
 				<button class="btn glyphicon glyphicon-cd" id="SpookyFly" #onClick="tienda('SpookyFly')"> SpookyFly </button>
 			</div>
 
-			<!-- Tercera fila  -->
+			Tercera fila
 			<div class="col-xs-4 col-md-2 col-md-push-3">
 				<h3>Consumibles</h3>
 				<button class="btn btn-warning"> Plátano </button>
 			</div>
 
-			<!-- Quinta fila  -->
+			Quinta fila
 			 <div class="col-xs-4 col-md-2 col-md-push-6">
 					<h3>Mejoras</h3>
 					<button class="btn btn-info"> Pc nuevo </button>
 				</div>
 
-			<!-- Segunda fila  -->
+			Segunda fila
 			<div class="col-xs-6 col-md-3 col-md-pull-4">
 				<h3>Contratación</h3>
 				<button class="btn btn-default" > Buscar empleados</button>
     	</div>
 
-			<!-- Cuarta fila  -->
+			Cuarta fila
 			<div class="col-xs-6 col-md-3 col-md-pull-2">
 				<h3>Relax...</h3>
 				<button class="btn btn-danger"> Irse de vacaciones</button>
     	</div>
-		</div>
+		</div> -->
 	</div>
 </section>
 

@@ -63,6 +63,7 @@ var infoBitcoin = 0;
 
 // venderBitcoins()  ----  Variable para controlar el precio actual del bitcoin aleatoriamente.
 var precioBitcoinAleatorioAnterior;
+var bitFree;
 
 // comprarSoftware()
 var precioSoftware = 100;
@@ -110,6 +111,7 @@ function borrar() {
 	borrado = confirm('¿Seguro que quieres empezar una nueva partida?');
 	if (borrado == true){
 		while (localStorage.getItem("Variables") != null){
+			Variables = 0;
 			localStorage.clear("Variables");
 		}
 		location.reload();
@@ -141,28 +143,28 @@ function actualizarInfo() {
 	document.getElementById('bitcoinActual').innerHTML = "Recopilando información...";
 	}
 	else if (precioBitcoinAleatorioAnterior < Variables.precioBitcoinAleatorio){
-	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2);
+	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2)+ " €";
 	document.getElementById('bitcoinActual').setAttribute("class","glyphicon glyphicon-arrow-up")
-	document.getElementById('bitcoinActual').setAttribute("style","color: #449D44; font-size: 18px")
+	document.getElementById('bitcoinActual').setAttribute("style","color: #449D44")
 	}
 	else if (precioBitcoinAleatorioAnterior > Variables.precioBitcoinAleatorio){
-	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2);
+	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2) + " €";
 	document.getElementById('bitcoinActual').setAttribute("class","glyphicon glyphicon-arrow-down red")
-	document.getElementById('bitcoinActual').setAttribute("style","color: red; font-size: 18px")
+	document.getElementById('bitcoinActual').setAttribute("style","color: red")
 	}
 	else if (precioBitcoinAleatorioAnterior == Variables.precioBitcoinAleatorio){
-	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2);
+	document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2)+ " €";
 	document.getElementById('bitcoinActual').setAttribute("class","glyphicon glyphicon-arrow-right grey")
-	document.getElementById('bitcoinActual').setAttribute("style","color: grey; font-size: 18px")
+	document.getElementById('bitcoinActual').setAttribute("style","color: grey")
 	}
 	else {
-		document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2);
+		document.getElementById('bitcoinActual').innerHTML = "  " + Variables.precioBitcoinAleatorio.toFixed(2)+ " €";
 	}
 }
 
 // bitcoinFree
 function bitcoinFree(){
-	var bitFree = setInterval(function(){
+	bitFree = setInterval(function(){
 		Variables.bitcoinFree = Math.random() * (0.000011 - 0.0000052) + 0.0000052;
 		Variables.bitcoin = Variables.bitcoin + Variables.bitcoinFree;
 		actualizarInfo();
@@ -410,14 +412,14 @@ function comprarSoftware() {
 			document.getElementById('softwareProgreso').innerHTML = seg + '%';
 			seg++;
 			comprarSoftware();
-		},1);
-		//Math.floor(Math.random() * (2000 - 200 + 1)) + 200);
+		},Math.floor(Math.random() * (2000 - 200 + 1)) + 200);
 		}
 		else if (seg > 100) {
 			if (Variables.tiempoBitcoinFree === 14293.1311 ){
 				Variables.tiempoBitcoinFree = 7311;
+				clearTimeout(bitFree);
+				actualizarInfo();
 				bitcoinFree();
-				mostrarInfo();
 			}
 			comprar = 0;
 			seg = 1;
@@ -442,7 +444,6 @@ function tienda(seleccion){
 		if (Variables.cartera >= precioSpookyFly){
 			Variables.servicioMensual = "SpookyFly";
 			Variables.tiempoCobro = 60;
-			clearTimeout(bitFree);
 			comprobarServicio();
 		}
 		else {
