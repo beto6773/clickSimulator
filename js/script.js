@@ -114,7 +114,8 @@ function borrar() {
 	borrado = confirm('¿Seguro que quieres empezar una nueva partida?');
 	if (borrado == true){
 		while (localStorage.getItem("Variables") != null){
-			Variables = 0;
+			localStorage.clear("Variables");
+			localStorage.clear("Variables");
 			localStorage.clear("Variables");
 		}
 		location.reload();
@@ -130,10 +131,12 @@ function actualizarInfo() {
 
 	if (Variables.cartera <= Variables.precioGrafica) {
 		document.getElementById('comprarGrafica').setAttribute('disabled', true);
+		document.getElementById("comprarGrafica").innerHTML = "Tarjeta gráfica ["+Variables.precioGrafica+"]";
 	}
 	else {
 
 		document.getElementById('comprarGrafica').removeAttribute('disabled');
+		document.getElementById("comprarGrafica").innerHTML = "Tarjeta gráfica ["+Variables.precioGrafica+"]";
 	}
 
 	infoCartera = Variables.cartera;
@@ -169,7 +172,7 @@ function actualizarInfo() {
 function bitcoinFree(){
 	bitFree = setInterval(function(){
 		Variables.bitcoinFree = Math.random() * (0.000011 - 0.0000052) + 0.0000052;
-		Variables.bitcoin = Variables.bitcoin + Variables.bitcoinFree;
+		Variables.bitcoin += Variables.bitcoinFree;
 		actualizarInfo();
 	}, Variables.tiempoBitcoinFree);
 }
@@ -197,8 +200,8 @@ function minar() {
 	if (Variables.tarjetaGraficaRota == 550 && Variables.tarjetasGraficas > 1) {
 		alert ('Se te ha roto una tarjeta gráfica.')
 		Variables.tarjetasGraficas--;
-		variables.bitcoinMax = variables.bitcoinMax * 0.6;
-		variables.bitcoinMin = variables.bitcoinMin * 0.6;
+		Variables.bitcoinMax -= 0.000009;
+		Variables.bitcoinMin -= 0.0000030;
 	}
 	actualizarInfo();
 }
@@ -230,8 +233,8 @@ function comprobarCambio(){
 // Funcion vender bitcoins
 function venderBitcoins(){
 if (document.getElementById('venderTodo').checked == true){
-	Variables.cartera = Variables.cartera + (Variables.bitcoin * Variables.precioBitcoinAleatorio);
-	Variables.bitcoin = Variables.bitcoin - Variables.bitcoin;
+	Variables.cartera += (Variables.bitcoin * Variables.precioBitcoinAleatorio);
+	Variables.bitcoin -= Variables.bitcoin;
 	actualizarInfo();
 }
 
@@ -246,8 +249,8 @@ else {
 			alert ('¡Error!. No tienes suficientes Bitcoins.');
 		}
 		else if (cantVenta <= Variables.bitcoin){
-			Variables.bitcoin = Variables.bitcoin - cantVenta;
-			Variables.cartera = Variables.cartera + (cantVenta * Variables.precioBitcoinAleatorio);
+			Variables.bitcoin -= cantVenta;
+			Variables.cartera += (cantVenta * Variables.precioBitcoinAleatorio);
 			actualizarInfo();
 		}
 		else {
@@ -265,7 +268,7 @@ if (Variables.cartera <= 0){
 
 else if (document.getElementById('compraMaxima').checked == true){
 	Variables.bitcoin = Variables.cartera / Variables.precioBitcoinAleatorio;
-	Variables.cartera = Variables.cartera - Variables.cartera;
+	Variables.cartera -= Variables.cartera;
 	actualizarInfo();
 }
 
@@ -282,8 +285,8 @@ else if (document.getElementById('compraMaxima').checked == false){
 	}
 
 	else if (cantCompra <= carteraActual / Variables.precioBitcoinAleatorio){
-		Variables.bitcoin = cantCompra + Variables.bitcoin;
-		Variables.cartera = Variables.cartera - (cantCompra * Variables.precioBitcoinAleatorio);
+		Variables.bitcoin += cantCompra;
+		Variables.cartera -= (cantCompra * Variables.precioBitcoinAleatorio);
 		actualizarInfo();
 		}
 	else {
@@ -299,45 +302,28 @@ function comprarGrafica() {
 		alert ('¡No tienes dinero suficiente!')
 	}
 
-	else if (Variables.tarjetasGraficas > 7 && Variables.tarjetasGraficas < 9) {
-		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 3) * 2;
+	else if (Variables.tarjetasGraficas > 7 && Variables.tarjetasGraficas < 9 || Variables.tarjetasGraficas > 12 && Variables.tarjetasGraficas < 14 || Variables.tarjetasGraficas > 19 && Variables.tarjetasGraficas < 21) {
+		Variables.cartera -= Variables.precioGrafica;
+		Variables.precioGrafica += (Variables.precioGrafica / 2);
 		alert ('¡El precio de las tarjetas gráficas ha subido!');
 		Variables.tarjetasGraficas++
 		document.getElementById("comprarGrafica").innerHTML = "Tarjeta gráfica ["+Variables.precioGrafica+"]";
 		actualizarInfo();
 	}
 
-	else if (Variables.tarjetasGraficas > 12 && Variables.tarjetasGraficas < 14) {
-		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 2) * 2.5;
-		alert ('¡El precio de las tarjetas gráicas ha vuelto a subir!');
+	else if (Variables.tarjetasGraficas > 23){
+		Variables.cartera -= Variables.precioGrafica;
+		Variables.precioGrafica += Variables.precioGrafica;
 		Variables.tarjetasGraficas++
 		document.getElementById("comprarGrafica").innerHTML = "Tarjeta gráfica ["+Variables.precioGrafica+"]";
 		actualizarInfo();
 	}
-
-	else if (Variables.tarjetasGraficas > 19 && Variables.tarjetasGraficas < 21) {
-		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 2) * 4;
-		alert ('¡El precio de las tarjetas gráicas ha vuelto a subir!');
-		Variables.tarjetasGraficas++
-		document.getElementById("comprarGrafica").innerHTML = "Tarjeta gráfica ["+Variables.precioGrafica+"]";
-		actualizarInfo();
-	}
-
-	else if (Variables.tarjetasGraficas > 26 && Variables.tarjetasGraficas < 28) {
-		Variables.precioGrafica = Variables.precioGrafica + (Variables.precioGrafica / 2) * 4;
-		alert ('¡El precio de las tarjetas gráicas ha vuelto a subir!');
-		Variables.tarjetasGraficas++
-		document.getElementById("comprarGrafica").innerHTML = "Tarjeta gráfica ["+Variables.precioGrafica+"]";
-		actualizarInfo();
-	}
-
-
 
 	else {
-		Variables.cartera = Variables.cartera - Variables.precioGrafica;
+		Variables.cartera -= Variables.precioGrafica;
 		Variables.tarjetasGraficas++
-		Variables.bitcoinMax = Variables.bitcoinMax * 1.56;
-		Variables.bitcoinMin = Variables.bitcoinMin * 1.41;
+		Variables.bitcoinMax += 0.000012;
+		Variables.bitcoinMin += 0.0000060;
 		document.getElementById('tarjetasGraficas').innerHTML = Variables.tarjetasGraficas;
 		actualizarInfo();
 	}
@@ -351,7 +337,7 @@ function comprarCafe(){
 	}
 
 	else if (Variables.tiempoEspera <= 45 && Variables.cartera > precioCafe) {
-		Variables.cartera = Variables.cartera - precioCafe;
+		Variables.cartera -= precioCafe;
 		Variables.maxActual = parseFloat(Variables.bitcoinMax);
 		Variables.minActual = parseFloat(Variables.bitcoinMin);
 		cuentaAtras();
