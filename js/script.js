@@ -4,10 +4,10 @@ if (localStorage.getItem("Variables") === null) {
 
 		// Variables relacionadas con el dinero
 		precioBitcoinMin : 3976.55,
-		precioBitcoinMax : 4101.21,
-		bitcoinMinar : 0.0000052,
-		bitcoinMax : 0.000009,
-		bitcoinMin : 0.0000052,
+		precioBitcoinMax : 5101.21,
+		bitcoinMinar : 0.0000071,
+		bitcoinMax : 0.000017,
+		bitcoinMin : 0.0000071,
 		bitcoinFree : 0,
 		bitcoin : 0,
 		cartera: 0,
@@ -26,7 +26,7 @@ if (localStorage.getItem("Variables") === null) {
 		cursoRealizado : 0, 																											// curso de inversion, necesario para poder desbloquear la funcion de compra-venta de bitcoins
 		instalado : 0,
 		tiempoBitcoinFree : 14293.1311,
-		precioBitcoinAleatorio : Math.random() * (4101.21 - 3976.55) + 3976.55,
+		precioBitcoinAleatorio : Math.random() * (5101.21 - 3976.55) + 3976.55,
 
 		// Variablas para futuras implementaciones.
 		servicioMensual: " ",
@@ -183,7 +183,6 @@ function mostrarInfo() {
 			Variables.precioBitcoinAleatorio = 5793.12746410
 		}
 		Variables.tiempoRefresco = Math.random() * (Variables.tiempoMax - Variables.tiempoMin) + Variables.tiempoMin;
-		comprobarServicio();
 		actualizarInfo();
 	}, Variables.tiempoRefresco);
 }
@@ -212,7 +211,6 @@ function comprobarCambio(){
 		document.getElementById("parrafoMaxima").removeAttribute('hidden');
 		document.getElementById("comprarBitcoinsValor").removeAttribute('hidden');
 		document.getElementById('comprarCurso').setAttribute('title','Realizado!');
-		document.getElementById('comprarCurso').setAttribute('disabled',true);
 		document.getElementById('comprarCurso').setAttribute('class','btn btn-success');
 		document.getElementById('comprarCurso').innerHTML = "¡Curso Realizado!";
 	}
@@ -463,9 +461,11 @@ function comprarSoftware() {
 // Funcion para comprar un curso de inversión en bolsa y desbloquear funcion de vender bitcoins.
 
 function comprarCurso() {
+	if (Variables.cursoRealizado == 1){
+		$('#cursoInversion').modal();
+	}
 
-	if (Variables.cursoRealizado == 0 && Variables.cartera >= precioCurso){
-		document.getElementById('comprarCurso').setAttribute('disabled',true);
+	else if (Variables.cursoRealizado == 0 && Variables.cartera >= precioCurso){
 		realizar = confirm('¿Quieres adquirir este curso? Te costará 65€');
 			if (realizar == true) {
 				Variables.cursoRealizado = 1;
@@ -474,11 +474,11 @@ function comprarCurso() {
 				document.getElementById("parrafoMaxima").removeAttribute('hidden');
 				document.getElementById("comprarBitcoinsValor").removeAttribute('hidden');
 				document.getElementById('comprarCurso').setAttribute('title','Realizado!');
-				document.getElementById('comprarCurso').setAttribute('disabled',true);
 				document.getElementById('comprarCurso').setAttribute('class','btn btn-success');
 				document.getElementById('comprarCurso').innerHTML = "¡Curso Realizado!";
 				guardar();
 				actualizarInfo();
+				$('#cursoInversion').modal();
 			}
 			else if (realizar == false){
 				document.getElementById('comprarSoftware').removeAttribute('disabled');
