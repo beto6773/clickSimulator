@@ -42,3 +42,11 @@ table th, table td {
 	width: 100px;
 	height: 30px;
 }
+
+@media screen and (max-width: 765px){
+	.botonesFunciones button, .tienda button{
+		height: 70px;
+		width: 170px;
+		font-size: 20px;
+	}
+}
