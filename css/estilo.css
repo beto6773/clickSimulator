@@ -43,10 +43,10 @@ table th, table td {
 	height: 30px;
 }
 
-@media screen and (max-width: 765px){
+/* @media screen and (max-width: 765px){
 	.botonesFunciones button, .tienda button{
 		height: 70px;
 		width: 170px;
 		font-size: 20px;
 	}
-}
+} */
